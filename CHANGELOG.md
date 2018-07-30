@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 
 
-## [Unreleased]
+## [1.0.0] - 2018-07-30
 
 ### Added
 - Nuke gizmos have been moved from spin2d and nuke_plugins into this package.
