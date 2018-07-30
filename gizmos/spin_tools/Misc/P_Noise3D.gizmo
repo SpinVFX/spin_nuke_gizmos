@@ -1,0 +1,94 @@
+Gizmo {
+ help "Generates a 3D noise pattern on a given position pass.\nSupports fBm (Fractional Brownian Noise) and Turbulent Noise algorithms."
+ addUserKnob {20 User}
+ addUserKnob {41 in l "position data" T Shuffle_Input_Channels.in}
+ addUserKnob {41 output T OutChannel.out}
+ addUserKnob {6 unpremultiply +STARTLINE}
+ addUserKnob {6 useAlpha l "ignore outside alpha" -STARTLINE}
+ useAlpha true
+ addUserKnob {26 ""}
+ addUserKnob {4 noisetype M {fBm turbulent}}
+ noisetype turbulent
+ addUserKnob {13 size}
+ size {5 5 5}
+ addUserKnob {13 offset}
+ addUserKnob {26 ""}
+ addUserKnob {3 octaves}
+ addUserKnob {7 lacunarity R 0 5}
+ addUserKnob {7 gain}
+ gain 0.5
+}
+ Input {
+  inputs 0
+  name img
+  xpos 131
+  ypos -676
+ }
+ AddChannels {
+  channels alpha
+  color 1
+  name AddChannels1
+  xpos 131
+  ypos -547
+ }
+ Shuffle {
+  in rgb
+  alpha blue
+  out rgb
+  name Shuffle_Input_Channels
+  xpos 131
+  ypos -486
+ }
+set N5a4e540 [stack 0]
+ Unpremult {
+  name Unpremult1
+  xpos 389
+  ypos -486
+  disable {{!parent.unpremultiply i}}
+ }
+ Expression {
+  temp_name0 fBmNoise
+  temp_expr0 fBm((r+offset.x)*1/size.x,(g+offset.y)*1/size.y,(b+offset.z)*1/size.z,octaves,lacunarity,gain)*.5+0.5
+  temp_name1 turbNoise
+  temp_expr1 turbulence((r+offset.x)*1/size.x,(g+offset.y)*1/size.y,(b+offset.z)*1/size.z,octaves,lacunarity,gain)
+  channel0 alpha
+  expr0 "parent.useAlpha && a == 0 ? 0 : (noisetype==0?fBmNoise:noisetype==1?turbNoise:0)"
+  name Expression3
+  xpos 390
+  ypos -431
+ }
+ Remove {
+  operation keep
+  channels alpha
+  name Remove1
+  xpos 390
+  ypos -363
+ }
+ Shuffle {
+  in alpha
+  out alpha
+  name OutChannel
+  xpos 390
+  ypos -301
+ }
+push $N5a4e540
+ Dot {
+  name Dot1
+  xpos 165
+  ypos -244
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels all
+  name Copy1
+  xpos 390
+  ypos -263
+ }
+ Output {
+  name Output1
+  xpos 389
+  ypos -44
+ }
+end_group

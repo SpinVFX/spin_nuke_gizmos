@@ -1,0 +1,181 @@
+Group {
+ name PxF_MergeWrap
+ help "An 'over' with front and back edge wrap built-in."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {4 backMerge t "This blend mode is used to merge the back wrap on top of the background." M {Over Plus "" "" ""}}
+ addUserKnob {6 backDisable l disable t "Disable the back wrap." -STARTLINE}
+ addUserKnob {7 backBlur t "Size of the blur used to create the back wrap." R 0 100}
+ backBlur 50
+ addUserKnob {7 backMix t "Opacity of the back wrap."}
+ backMix 1
+ addUserKnob {4 frontMerge t "This blend mode is used to merge the front wrap on top of the foreground." M {Over Plus ""}}
+ addUserKnob {6 frontDisable l disable t "Disable the front wrap." -STARTLINE}
+ addUserKnob {7 frontBlur t "Size of the blur used to create the front wrap." R 0 100}
+ frontBlur 50
+ addUserKnob {7 frontMix t "Opacity of the front wrap."}
+ frontMix 1
+ addUserKnob {26 ""}
+ addUserKnob {26 c l "" +STARTLINE T "PxF_MergeWrap 1.1.2 - (c) 2012 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name A
+  xpos 199
+  ypos -651
+  number 1
+ }
+ Dot {
+  name Dot3
+  xpos 243
+  ypos -540
+ }
+set N23ab03e0 [stack 0]
+ Input {
+  inputs 0
+  name B
+  xpos 784
+  ypos -713
+ }
+ Dot {
+  name Dot1
+  xpos 818
+  ypos -626
+ }
+set N23c7cf10 [stack 0]
+ Dot {
+  name Dot2
+  xpos 990
+  ypos -556
+ }
+push $N23ab03e0
+ Blur {
+  size {{parent.backBlur i}}
+  name Blur22
+  xpos 556
+  ypos -559
+ }
+set N23c90af0 [stack 0]
+push $N23c7cf10
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  mix {{parent.backMix i}}
+  name Merge1
+  xpos 861
+  ypos -553
+ }
+push $N23c90af0
+push $N23c7cf10
+ Merge2 {
+  inputs 2
+  mix {{parent.backMix i}}
+  name Merge95
+  xpos 746
+  ypos -553
+ }
+ Switch {
+  inputs 3
+  which {{"backDisable? 2 : backMerge" i}}
+  name Switch1
+  xpos 809
+  ypos -490
+ }
+ Merge2 {
+  inputs 2
+  name Merge96
+  xpos 809
+  ypos -413
+ }
+set N23aba1f0 [stack 0]
+ Dot {
+  name Dot5
+  xpos 1061
+  ypos -227
+ }
+push $N23aba1f0
+ Shuffle {
+  alpha white
+  name Shuffle2
+  xpos 809
+  ypos -328
+ }
+set N23a89f90 [stack 0]
+ Dot {
+  name Dot4
+  xpos 982
+  ypos -228
+ }
+push $N23ab03e0
+push $N23ab03e0
+push $N23a89f90
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge97
+  xpos 483
+  ypos -374
+ }
+ Blur {
+  size {{parent.frontBlur i}}
+  name Blur23
+  xpos 483
+  ypos -323
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge98
+  xpos 483
+  ypos -234
+ }
+set N238c3540 [stack 0]
+push $N23a89f90
+ Merge2 {
+  inputs 2
+  operation plus
+  mix {{parent.frontMix i}}
+  name Merge2
+  xpos 838
+  ypos -234
+ }
+push $N238c3540
+push $N23a89f90
+ Merge2 {
+  inputs 2
+  mix {{parent.frontMix i}}
+  name Merge99
+  xpos 735
+  ypos -234
+ }
+ Switch {
+  inputs 3
+  which {{"frontDisable? 2 : frontMerge" i}}
+  name Switch2
+  xpos 798
+  ypos -165
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  xpos 798
+  ypos -93
+ }
+set N238cbc40 [stack 0]
+ Output {
+  name Output1
+  xpos 798
+  ypos 7
+ }
+push $N238cbc40
+ Viewer {
+  input_process false
+  name Viewer1
+  selected true
+  xpos 1069
+  ypos -300
+ }
+end_group

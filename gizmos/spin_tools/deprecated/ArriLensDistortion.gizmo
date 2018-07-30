@@ -1,0 +1,345 @@
+Gizmo {
+ help "ARRI's 35 mm format lenses have become the standard against which others are measured. Precisely designed and engineered, yet highly durable, these lenses offer exceptional performance across a wide range of applications."
+ tile_color 0xa479aaff
+ addUserKnob {20 ARRI}
+ addUserKnob {26 "" l "<b><u>Ultra Primes</u></b>"}
+ addUserKnob {4 lensModel l "Focal Lenght" M {12mm 16mm 20mm 24mm 32mm 40mm 50mm 85mm 100mm 135mm 180mm ""}}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {6 undistort l Undistort +STARTLINE}
+ addUserKnob {68 overscanSelect l Overscan M {None Automatic User-Defined ""}}
+ overscanSelect Automatic
+ addUserKnob {3 overscanX l X}
+ addUserKnob {3 overscanY l Y}
+ addUserKnob {26 ""}
+ addUserKnob {26 copyright l "" +STARTLINE T "ArriLenses v1.1 by Constantin Rukavitsin"}
+ addUserKnob {26 expectation l "" +STARTLINE T "Expects overscanned input."}
+}
+ Input {
+  inputs 0
+  name Source
+  xpos -403
+  ypos -804
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  name Crop1
+  xpos -403
+  ypos -717
+ }
+ Dot {
+  name Dot12
+  xpos -369
+  ypos -631
+ }
+set N509abcb0 [stack 0]
+ Dot {
+  name Dot14
+  xpos -293
+  ypos -631
+ }
+set N509ac010 [stack 0]
+ Dot {
+  name Dot13
+  xpos -195
+  ypos -631
+ }
+ Reformat {
+  type "to box"
+  box_width {{width+(2*parent.overscanX)}}
+  box_height {{height+(2*parent.overscanY)}}
+  box_fixed true
+  resize none
+  pbb true
+  name Reformat2
+  label "Overscan2\nUser-Defined"
+  xpos -229
+  ypos -532
+  disable {{!parent.overscan}}
+ }
+push $N509ac010
+ Reformat {
+  type "to box"
+  box_width {{width*1.0606}}
+  box_height {{height*1.0606}}
+  box_fixed true
+  resize none
+  pbb true
+  name Reformat1
+  label "Overscan1\nAutomatic"
+  xpos -327
+  ypos -532
+  disable {{!parent.overscan}}
+ }
+push $N509abcb0
+ Switch {
+  inputs 3
+  which {{parent.overscanSelect}}
+  name Switch2
+  xpos -403
+  ypos -399
+  disable {{!parent.undistort}}
+ }
+ Dot {
+  name Dot1
+  xpos -369
+  ypos -309
+ }
+set N505e4f00 [stack 0]
+ Dot {
+  name Dot10
+  xpos -283
+  ypos -309
+ }
+set N505e5fe0 [stack 0]
+ Dot {
+  name Dot9
+  xpos -197
+  ypos -309
+ }
+set N505e5260 [stack 0]
+ Dot {
+  name Dot8
+  xpos -111
+  ypos -309
+ }
+set N505e5920 [stack 0]
+ Dot {
+  name Dot7
+  xpos -25
+  ypos -309
+ }
+set N505e6a00 [stack 0]
+ Dot {
+  name Dot6
+  xpos 61
+  ypos -309
+ }
+set N505e5c80 [stack 0]
+ Dot {
+  name Dot5
+  xpos 147
+  ypos -309
+ }
+set N505e66a0 [stack 0]
+ Dot {
+  name Dot4
+  xpos 233
+  ypos -309
+ }
+set N50806a50 [stack 0]
+ Dot {
+  name Dot3
+  xpos 319
+  ypos -309
+ }
+set N50809cf0 [stack 0]
+ Dot {
+  name Dot2
+  xpos 405
+  ypos -309
+ }
+set N50806db0 [stack 0]
+ Dot {
+  name Dot11
+  xpos 491
+  ypos -309
+ }
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 -0.00251428
+  distortion2 -0.00119706
+  invertDistortion {{!parent.undistort}}
+  cardScale {1.003725171 1.003725171 1}
+  a -0.002819081768
+  b -0.0008154451498
+  c 6.188752195e-006
+  alignmentCorrection {1.003050804 0.0001755959092 2.926668969e-007 -0.0001938510686 1.002609372 5.412244377e-007 -1.778698921 -0.8748891354 1}
+  name Arri_UP_180
+  xpos 457
+  ypos -168
+ }
+push $N50806db0
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 -0.00702408
+  distortion2 0.00059331
+  invertDistortion {{!parent.undistort}}
+  cardScale {1.006472349 1.006472349 1}
+  a 0.0002294504375
+  b -0.004969264846
+  c -0.002121845726
+  alignmentCorrection {1 0 0 0 1 0 0 0 1}
+  name Arri_UP_135
+  xpos 371
+  ypos -168
+ }
+push $N50809cf0
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 -0.0048225
+  distortion2 0.0005712484126
+  invertDistortion {{!parent.undistort}}
+  "Card Parameters" 1
+  cardScale {1.004269242 1.004269242 1}
+  a 0.0002932957432
+  b -0.003240938997
+  c -0.001712754834
+  alignmentCorrection {-3466.026123 -0.7582190037 -0.003171856981 -0.242942512 2.143562779e-005 1.881177158e-011 1092816.375 239.0601501 1}
+  name Arri_UP_100
+  xpos 285
+  ypos -168
+ }
+push $N50806a50
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.00281112
+  distortion2 -0.0002835910127
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9974789023 0.9974789023 1}
+  a -3.166417446e-005
+  b 0.001695228741
+  c 0.001100380556
+  alignmentCorrection {1 0 0 0 1 0 0 0 1}
+  name Arri_UP_85
+  xpos 199
+  ypos -168
+ }
+push $N505e66a0
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.01122802
+  distortion2 0.00095375
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9879648685 0.9879648685 1}
+  a 0.004541669041
+  b 0.004737302195
+  c 0.00242894236
+  alignmentCorrection {0.9994665384 -0.000428260857 -8.16650811e-007 -8.757611067e-005 1.000195861 2.117951254e-007 0.0615593195 0.01775036566 1}
+  name Arri_UP_50
+  xpos 113
+  ypos -168
+ }
+push $N505e5c80
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.00410296
+  distortion2 0.0008633330581
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9950585365 0.9950585365 1}
+  a 0.002829845296
+  b 0.001378101646
+  c 0.0003656337503
+  alignmentCorrection {1 0 0 0 1 0 0 0 1}
+  name Arri_UP_40
+  xpos 27
+  ypos -168
+ }
+push $N505e6a00
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.00876533
+  distortion2 -0.0002950285852
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9916007519 0.9916007519 1}
+  a 0.0009098150185
+  b 0.005376677494
+  c 0.002532978309
+  alignmentCorrection {0.9992177486 0.0003987204982 -4.991379683e-007 -0.0004754100519 0.9982125163 -7.202143593e-007 0.08562261611 -0.5607672334 1}
+  name Arri_UP_32
+  xpos -59
+  ypos -168
+ }
+push $N505e5920
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.02676017
+  distortion2 -0.007557946257
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9811594486 0.9811594486 1}
+  a -0.0121318493
+  b 0.02249652147
+  c 0.0126739163
+  alignmentCorrection {1.002369404 0.0003539303725 2.333083131e-007 -0.0008470157627 0.9980030656 -8.66483731e-007 -0.6613090038 0.01397165749 1}
+  name Arri_UP_24
+  xpos -145
+  ypos -167
+ }
+push $N505e5260
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.02987668
+  distortion2 -0.00947697
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9800080061 0.9800080061 1}
+  a -0.01205980778
+  b 0.01811115257
+  c 0.01837520115
+  alignmentCorrection {1.001197457 0.0002682334743 -4.404707568e-007 0.0005500753759 1.00081265 3.036672922e-007 -1.52293992 -0.3853323758 1}
+  name Arri_UP_20
+  xpos -231
+  ypos -167
+ }
+push $N505e5fe0
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.03605628
+  distortion2 -0.0179321
+  invertDistortion {{!parent.undistort}}
+  cardScale {0.9821985364 0.9821985364 1}
+  a -0.02899587899
+  b 0.02838465385
+  c 0.02681010216
+  alignmentCorrection {1 0 0 0 1 0 0 0 1}
+  name Arri_UP_16
+  xpos -317
+  ypos -167
+ }
+push $N505e4f00
+ LensDistortion {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 9 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 0.08263374
+  distortion2 -0.03051648
+  invertDistortion {{!parent.undistort}}
+  "Card Parameters" 1
+  cardScale {0.9504643083 0.9504643083 1}
+  a -0.03984513134
+  b 0.0390272215
+  c 0.07468524575
+  alignmentCorrection {1 0 0 0 1 0 0 0 1}
+  name Arri_UP_12
+  xpos -403
+  ypos -167
+ }
+ Switch {
+  inputs 11
+  which {{parent.lensModel}}
+  name Switch1
+  xpos -403
+  ypos -24
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  reformat true
+  crop false
+  name Crop2
+  xpos -403
+  ypos 90
+ }
+set N509ad0f0 [stack 0]
+ Output {
+  name Output1
+  xpos -403
+  ypos 235
+ }
+end_group

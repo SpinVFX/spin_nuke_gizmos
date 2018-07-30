@@ -1,0 +1,31 @@
+#! /spin/software/nuke/10.0v4/linux/64/libnuke-10.0.4.so -nx
+version 10.0 v4
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 offset l "Offset (%)" R -20 20}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {20 tweak l Tweaking n 1}
+ tweak 0
+ addUserKnob {7 offset_l l "Offset Left" R -20 20}
+ addUserKnob {7 offset_r l "Offset Right" R -20 20}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 169
+  ypos 33
+ }
+ Transform {
+  translate {(default {0 0} left {{-width*(parent.offset_l/100)-width*(parent.offset/100)} 0} right {{width*(parent.offset_r/100)+width*(parent.offset/100)} 0})}
+  center {1024 778}
+  name Transform1
+  xpos 169
+  ypos 90
+ }
+ Output {
+  name Output1
+  xpos 169
+  ypos 173
+ }
+end_group

@@ -1,0 +1,131 @@
+#! /Applications/Nuke6.1v2/NukeX6.1v2.app/../Nuke6.1v2.app/Contents/MacOS/Nuke6.1v2 -nx
+version 6.1 v2
+Gizmo {
+ help "Takes the alpha and distorts it using a random noise pattern. If you have a solid rotoshape which looks too smooth, this will give it a rough edge."
+ addUserKnob {20 User l "Edge Roughen"}
+ addUserKnob {41 noiseSize l "Noise size" t "Smaller number gives a fine, grainy edge. Large number gives blobbier edges." T Noise3.size}
+ addUserKnob {41 distortAmount l "Distort Amount" t "Low number barely effects the image, higher numbers increase the 'reach' of the effect, spreading the shape out further." T IDistort2.uv_scale}
+ addUserKnob {41 coreMix l "Core Mix back" t "To stop the effect eating into the shape too much, you can bring back the core." T Merge4.mix}
+ addUserKnob {7 eroder l "Pre Erode/Dilate" t "If the roughened edge spreads too far out of your intended area, this will erode the shape a little before the roughening is applied." R -5 5}
+ addUserKnob {41 blurSize l "Extra Blur" t "Adds a blur on the end." T Blur2.size}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 429
+  ypos -323
+ }
+ Dilate {
+  channels alpha
+  size {{parent.eroder}}
+  name Dilate2
+  xpos 429
+  ypos -282
+ }
+ Dot {
+  name Dot2
+  xpos 463
+  ypos -226
+ }
+set N362a800 [stack 0]
+ Dot {
+  name Dot1
+  xpos 627
+  ypos -108
+ }
+ Dilate {
+  channels alpha
+  size -2.6
+  name Dilate1
+  xpos 593
+  ypos -76
+ }
+ Blur {
+  channels alpha
+  size 5
+  name Blur1
+  label "\[value size]"
+  xpos 593
+  ypos -5
+ }
+push $N362a800
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  xpos 255
+  ypos -157
+ }
+ Noise {
+  size 3
+  octaves 1
+  lacunarity 6.7
+  gain 0.96
+  center {960 540}
+  name Noise3
+  xpos 255
+  ypos -126
+ }
+push $N362a800
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 forward.u
+  from1 rgba.alpha
+  to1 forward.v
+  name Copy3
+  xpos 429
+  ypos -137
+ }
+ IDistort {
+  channels alpha
+  uv {forward.u -forward.v}
+  uv_offset 0.28
+  uv_scale {{parent.IDistort2.uv_scale i}}
+  name IDistort1
+  xpos 429
+  ypos -77
+ }
+ IDistort {
+  channels alpha
+  uv {-forward.u forward.v}
+  uv_offset 0.0105
+  uv_scale 20
+  name IDistort2
+  xpos 429
+  ypos -16
+ }
+ Merge2 {
+  inputs 2
+  operation screen
+  mix 0
+  name Merge4
+  xpos 429
+  ypos 70
+ }
+set N363b800 [stack 0]
+ Blur {
+  channels alpha
+  name Blur2
+  label "\[value size]"
+  xpos 429
+  ypos 133
+ }
+ Output {
+  name Output1
+  xpos 429
+  ypos 289
+ }
+push $N363b800
+push 0
+ Viewer {
+  inputs 2
+  input_number 1
+  input_process false
+  name Viewer1
+  xpos 539
+  ypos -277
+ }
+end_group

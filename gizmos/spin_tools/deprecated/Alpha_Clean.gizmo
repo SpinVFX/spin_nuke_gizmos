@@ -1,0 +1,14 @@
+#! /spin/software/nuke/6.3v8/linux/64/Nuke6.3 -nx
+version 6.3 v8
+Gizmo {
+ inputs 0
+ addUserKnob {20 AlphaClean}
+ addUserKnob {7 size R 0 10}
+ size 1.7
+ addUserKnob {7 OrigEdgeAmount}
+ OrigEdgeAmount 0.45
+ addUserKnob {7 OrigEdgeWidth R 0 10}
+ OrigEdgeWidth 5
+ addUserKnob {26 ""}
+}
+end_group

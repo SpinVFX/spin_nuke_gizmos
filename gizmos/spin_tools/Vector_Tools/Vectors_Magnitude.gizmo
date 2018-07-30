@@ -1,0 +1,48 @@
+Group {
+ name Vectors_Magnitude
+ help "Displays the magnitude of vectors."
+ addUserKnob {20 mag l Magnitude}
+ addUserKnob {41 in l Vector_Layer t "Pick the layer containing your motion vectors." T UV_Channel.in}
+ addUserKnob {26 ""}
+ addUserKnob {26 copyright l "" t www.erwanleroy.com +STARTLINE T "v1.0 - Part of VectorTools by Erwan Leroy - 2016"}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -303
+  ypos 114
+ }
+set Nad1de50 [stack 0]
+ Shuffle {
+  name UV_Channel
+  xpos -163
+  ypos 114
+ }
+ Expression {
+  channel0 rgba
+  expr0 sqrt(pow(r,2)+pow(g,2)+pow(b,2))
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  channel3 {none none none -rgba.alpha}
+  name Mag
+  xpos -163
+  ypos 228
+ }
+push $Nad1de50
+ ShuffleCopy {
+  inputs 2
+  in2 none
+  red red
+  green green
+  blue blue
+  alpha black
+  out {{{parent.UV_Channel.in}}}
+  name ShuffleCopy1
+  xpos -303
+  ypos 228
+ }
+ Output {
+  name Output1
+  xpos -303
+  ypos 299
+ }
+end_group

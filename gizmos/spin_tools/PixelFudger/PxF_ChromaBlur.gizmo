@@ -1,0 +1,94 @@
+Group {
+ name PxF_ChromaBlur
+ help "Blur chroma information without affecting luminance by converting the image to YCbCr and blurring the chroma channels. Useful to blur color artifacts in digital video."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {14 blursize2 l "Blur size" t "Amount of blur" R 0 100}
+ blursize2 16
+ addUserKnob {6 luma l Y t "Blur luminance" +STARTLINE}
+ addUserKnob {6 chroma1 l Cb t "Blur blue chroma difference channel." -STARTLINE}
+ chroma1 true
+ addUserKnob {6 chroma2 l Cr t "Blur red chroma difference channel." -STARTLINE}
+ chroma2 true
+ addUserKnob {41 black_clamp l "black clamp" t "Clamp sub-zero values after chroma blur." T Grade1.black_clamp}
+ addUserKnob {41 white_clamp l "white clamp" t "Clamp values > 1.0 after the chroma blur." -STARTLINE T Grade1.white_clamp}
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" t "PxF_ChromaBlur.\nBlurs the chroma and\nleaves the luma alone.\nUsed to cure blocky \nchroma on DV/HDV \nfootage or to degrain \na noisy blue channel." -STARTLINE T "PxF_ChromaBlur 2.0.3 - (c) 2012 - Xavier Bourque -  www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 285
+  ypos 129
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 128
+  ypos 11
+ }
+set N230305c0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 30
+  ypos 223
+ }
+push $N230305c0
+ Colorspace {
+  colorspace_out YCbCr
+  name Colorspace1
+  xpos 128
+  ypos 88
+ }
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue}
+  size {{blursize2 i}}
+  name luma_blur
+  xpos 128
+  ypos 113
+  disable {{"1 - luma" i}}
+ }
+ Blur {
+  channels {-rgba.red rgba.green -rgba.blue}
+  size {{blursize2 i}}
+  name chroma1_blur
+  xpos 128
+  ypos 147
+  disable {{"1 - chroma1" i}}
+ }
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue}
+  size {{blursize2 i}}
+  name chroma2_blur
+  xpos 128
+  ypos 181
+  disable {{"1 - chroma2" i}}
+ }
+ Colorspace {
+  colorspace_in YCbCr
+  name Colorspace2
+  xpos 128
+  ypos 240
+ }
+ Grade {
+  name Grade1
+  xpos 128
+  ypos 287
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  selected true
+  xpos 128
+  ypos 372
+  disable {{"\[exists parent.input1] ? 0 : 1" x1 0}}
+ }
+ Output {
+  name Output1
+  xpos 128
+  ypos 461
+ }
+end_group

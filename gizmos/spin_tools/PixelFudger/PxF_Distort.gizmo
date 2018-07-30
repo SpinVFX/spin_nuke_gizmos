@@ -1,0 +1,291 @@
+
+Group {
+ inputs 3
+ name PxF_Distort
+ help "Fake refraction using an 'edge-detected' deformation map. Useful to simulate glass-like refractions. Can also be used to grow edges on tricky chroma keys by distorting the RGB channels using the Alpha as the deformation map."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {41 channels t "Which channels are distorted." T IDistort1.channels}
+ addUserKnob {7 amount t "Amount of distortion." R -2 2}
+ amount 0.08
+ addUserKnob {6 fine t "Makes the effect easier to dial when trying to achieve really subtle results." +STARTLINE}
+ fine true
+ addUserKnob {7 blurLens t "Blur the deformation map, post edge detection." R 0 100}
+ blurLens 1
+ addUserKnob {6 wrap t "Flips, flops and tiles the image around the frame. Useful when the distortion is strong enough to fetch pixels that are outside of frame.\n(Warning: This makes everything 9x slower!)" +STARTLINE}
+ addUserKnob {4 lensChannel t "Which channel from the 'lens' input is used as a deformation map." M {red green blue alpha ""}}
+ lensChannel alpha
+ addUserKnob {41 filter t "Which kind of standard Nuke pixel filtering to use for the deformation." T IDistort1.filter}
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" +STARTLINE T "PxF_Distort 2.0.4 - (c) 2014 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 168
+  ypos 357
+  number 2
+ }
+ Input {
+  inputs 0
+  name img
+  xpos -133
+  ypos -626
+ }
+ Dot {
+  name Dot3
+  xpos -99
+  ypos -503
+ }
+set N1b842b80 [stack 0]
+ Dot {
+  name Dot2
+  xpos -435
+  ypos -121
+ }
+set N1b8409c0 [stack 0]
+ Input {
+  inputs 0
+  name lens
+  xpos 108
+  ypos -608
+  number 1
+ }
+ Dot {
+  name Dot4
+  xpos 142
+  ypos -538
+ }
+set N1b837180 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle4
+  label alpha
+  xpos 245
+  ypos -401
+ }
+push $N1b837180
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha blue
+  name Shuffle3
+  label blue
+  xpos 152
+  ypos -399
+ }
+push $N1b837180
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha green
+  name Shuffle2
+  label green
+  xpos 63
+  ypos -401
+ }
+push $N1b837180
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha red
+  name Shuffle1
+  label red
+  xpos -30
+  ypos -403
+ }
+ Switch {
+  inputs 4
+  which {{parent.lensChannel}}
+  name Switch1
+  xpos 106
+  ypos -334
+ }
+ Dot {
+  name Dot1
+  xpos 140
+  ypos -272
+ }
+set N1b8f9c80 [stack 0]
+push $N1b8f9c80
+ Position {
+  translate {1 0}
+  name Position1
+  xpos 19
+  ypos -209
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge15
+  xpos 80
+  ypos -167
+ }
+push $N1b8f9c80
+push $N1b8f9c80
+ Position {
+  translate {0 1}
+  name Position2
+  xpos 223
+  ypos -212
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge21
+  xpos 179
+  ypos -167
+ }
+ ShuffleCopy {
+  inputs 2
+  red alpha
+  green alpha2
+  blue blue
+  name ShuffleCopy3
+  xpos 116
+  ypos -116
+ }
+ Blur {
+  size {{"parent.blurLens * (parent.width/2048) * 2.75"}}
+  name Blur13
+  xpos 116
+  ypos -78
+ }
+ Multiply {
+  value {{"fine ? pow(parent.blurLens,0.395) * parent.amount * parent.width * 3.597 / 10 : pow(parent.blurLens,0.395) * parent.amount * parent.width * 3.597"}}
+  name Multiply5
+  xpos 116
+  ypos -43
+ }
+set N1c15d4d0 [stack 0]
+ Expression {
+  channel3 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr3 "r == 0 && g == 0 ? 1 : 0"
+  name Expression1
+  xpos 127
+  ypos 123
+ }
+push $N1b8409c0
+push $N1b842b80
+ Dot {
+  name Dot5
+  xpos -303
+  ypos -146
+ }
+push $N1c15d4d0
+push $N1b842b80
+ Mirror {
+  Horizontal true
+  Vertical true
+  name Mirror2
+  xpos -121
+  ypos -251
+  disable {{"1 - parent.wrap"}}
+ }
+ Reformat {
+  type scale
+  scale 3
+  filter Impulse
+  name Reformat2
+  xpos -121
+  ypos -224
+  disable {{"1 - parent.wrap"}}
+ }
+ Tile {
+  rows 3
+  mirrorRows true
+  columns 3
+  mirrorCols true
+  filter Impulse
+  name Tile1
+  xpos -121
+  ypos -200
+  disable {{"1 - parent.wrap"}}
+ }
+ Reformat {
+  type scale
+  scale 0.333333
+  resize none
+  filter Impulse
+  name Reformat3
+  xpos -121
+  ypos -176
+  disable {{"1 - parent.wrap"}}
+ }
+ Transform {
+  translate {-1 -1}
+  center {3072 2334}
+  black_outside false
+  name Transform1
+  xpos -121
+  ypos -142
+  disable {{"1 - parent.wrap"}}
+ }
+set N1c72daa0 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  name Copy1
+  xpos -113
+  ypos -50
+ }
+ IDistort {
+  channels rgb
+  uv forward
+  uv_scale {{(parent.width/2048)}}
+  blur -depth.Z
+  name IDistort1
+  xpos -113
+  ypos 83
+ }
+ Remove {
+  channels forward
+  name Remove1
+  xpos -113
+  ypos 136
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  selected true
+  xpos -113
+  ypos 213
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -113
+  ypos 286
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix2
+  xpos -113
+  ypos 405
+  disable {{"\[exists parent.input2] ? 0 : 1" x1 0}}
+ }
+ Output {
+  name Output1
+  xpos -113
+  ypos 515
+ }
+push $N1c72daa0
+push $N1b842b80
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos 226
+  ypos -46
+ }
+end_group

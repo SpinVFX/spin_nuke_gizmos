@@ -1,0 +1,269 @@
+Group {
+ name PxF_ScreenClean
+ help "Clean chroma key background imperfections using a clean plate."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {4 screen_type l ScreenType t "The color of the chroma key background." M {Red Green Blue "" "" ""}}
+ screen_type Green
+ addUserKnob {18 screen_color l ScreenColor t "The color that will be used to repair the chroma key background (usually the average color of the background)."}
+ screen_color {0.18 0.3 0.1}
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" t "PxF_ScreenClean.\nInput 1 = Plate.\nInput 2 = Clean Plate.\nUse ScreenClean to erase\nimperfections in a green/blue/red\nscreen using a clean plate." -STARTLINE T "PxF_ScreenClean 2.0.3 - (c) 2012 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 419
+  ypos 274
+  number 2
+ }
+ Input {
+  inputs 0
+  name plate
+  xpos 203
+  ypos -448
+ }
+ Dot {
+  name Dot1
+  xpos 209
+  ypos -347
+ }
+set N2395a8b0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -64
+  ypos -202
+ }
+ Dot {
+  name Dot3
+  xpos -57
+  ypos 214
+ }
+set N23cdd160 [stack 0]
+push $N23cdd160
+push $N2395a8b0
+ Shuffle {
+  red blue
+  green blue
+  alpha black
+  name Blue
+  xpos 203
+  ypos -187
+ }
+set N239752f0 [stack 0]
+push $N2395a8b0
+ Shuffle {
+  red green
+  blue green
+  alpha black
+  name Green
+  xpos 112
+  ypos -179
+ }
+set N23ee15f0 [stack 0]
+push $N2395a8b0
+ Shuffle {
+  green red
+  blue red
+  alpha black
+  name Red
+  xpos 17
+  ypos -180
+ }
+set N2393d790 [stack 0]
+ Switch {
+  inputs 3
+  which {{screen_type i x1 0}}
+  name High
+  xpos 17
+  ypos -99
+ }
+push $N23ee15f0
+push $N2393d790
+ Switch {
+  inputs 2
+  which {{"screen_type == 0 ? 1 : screen_type == 1 ? 0 : 0" i x1 0}}
+  name LowA
+  xpos 145
+  ypos -108
+ }
+push $N239752f0
+push $N23ee15f0
+push 0
+ Switch {
+  inputs 3
+  which {{"screen_type == 0 ? 2 : screen_type == 1 ? 2 : 1" i x1 1}}
+  name LowB
+  xpos 261
+  ypos -107
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge1
+  xpos 217
+  ypos -59
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge2
+  xpos 116
+  ypos -20
+ }
+ Input {
+  inputs 0
+  name clean_plate
+  xpos 462
+  ypos -437
+  number 1
+ }
+ Dot {
+  name Dot4
+  xpos 530
+  ypos -235
+ }
+set N239ddb70 [stack 0]
+ Shuffle {
+  red blue
+  green blue
+  alpha black
+  name Blue1
+  xpos 570
+  ypos -194
+ }
+set N241d5dc0 [stack 0]
+push $N239ddb70
+ Shuffle {
+  red green
+  blue green
+  alpha black
+  name Green1
+  xpos 481
+  ypos -195
+ }
+set N23ce8860 [stack 0]
+push $N239ddb70
+ Shuffle {
+  green red
+  blue red
+  alpha black
+  name Red1
+  xpos 382
+  ypos -194
+ }
+set N23969ea0 [stack 0]
+ Switch {
+  inputs 3
+  which {{screen_type i x1 0}}
+  name High1
+  xpos 401
+  ypos -130
+ }
+push $N23ce8860
+push $N23969ea0
+ Switch {
+  inputs 2
+  which {{"screen_type == 0 ? 1 : screen_type == 1 ? 0 : 0" i}}
+  name LowA1
+  xpos 498
+  ypos -131
+ }
+push $N241d5dc0
+push $N23ce8860
+push 0
+ Switch {
+  inputs 3
+  which {{"screen_type == 0 ? 2 : screen_type == 1 ? 2 : 1" i}}
+  name LowB1
+  xpos 592
+  ypos -128
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge3
+  xpos 532
+  ypos -73
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge4
+  xpos 429
+  ypos -19
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge5
+  xpos 309
+  ypos 87
+ }
+ Clamp {
+  name Clamp1
+  xpos 309
+  ypos 114
+ }
+push $N239ddb70
+ Dot {
+  name Dot5
+  xpos 720
+  ypos -198
+ }
+push $N2395a8b0
+ Dot {
+  name Dot7
+  xpos 845
+  ypos -231
+ }
+ ColorCorrect {
+  gain 0
+  offset {{screen_color.r i} {screen_color.g i} {screen_color.b i} {1 i}}
+  name ColorCorrect1
+  xpos 817
+  ypos -159
+  postage_stamp true
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge6
+  xpos 692
+  ypos -24
+ }
+ Dot {
+  name Dot6
+  xpos 688
+  ypos 165
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge7
+  xpos 309
+  ypos 166
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge8
+  xpos 309
+  ypos 215
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  selected true
+  xpos 309
+  ypos 299
+  disable {{"\[exists parent.input2] ? 0 : 1" i x1 0}}
+ }
+ Output {
+  name Output1
+  xpos 309
+  ypos 348
+ }
+end_group

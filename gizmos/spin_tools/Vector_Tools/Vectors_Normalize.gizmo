@@ -1,0 +1,49 @@
+Group {
+ name Vectors_Normalize
+ help "Scales the magnitude of all vectors to 1."
+ addUserKnob {20 norm l Normalize}
+ addUserKnob {41 in l Vector_Layer t "Pick the layer containing your motion vectors." T UV_Channel.in}
+ addUserKnob {26 ""}
+ addUserKnob {26 copyright l "" t www.erwanleroy.com +STARTLINE T "v1.2 - Part of VectorTools by Erwan Leroy - 2016"}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -303
+  ypos 114
+ }
+set Nb18bc50 [stack 0]
+ Shuffle {
+  name UV_Channel
+  xpos -163
+  ypos 114
+ }
+ Expression {
+  temp_name0 mag
+  temp_expr0 sqrt(pow(r,2)+pow(g,2)+pow(b,2))
+  expr0 mag!=0?r/mag:0
+  expr1 mag!=0?g/mag:0
+  expr2 mag!=0?b/mag:0
+  name Normalize
+  xpos -163
+  ypos 228
+ }
+push $Nb18bc50
+ ShuffleCopy {
+  inputs 2
+  in2 none
+  red red
+  green green
+  blue blue
+  alpha black
+  out {{{parent.UV_Channel.in}}}
+  name ShuffleCopy1
+  xpos -303
+  ypos 228
+ }
+ Output {
+  name Output1
+  xpos -303
+  ypos 299
+ }
+end_group

@@ -1,0 +1,235 @@
+Group {
+ name PxF_KillSpill
+ help "Remove red/green/blue spill."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {4 back_color l ScreenColor t "Which type of spill to remove." M {red green blue "" ""}}
+ back_color green
+ addUserKnob {7 supp l Suppression t "Bias the mix of channels used to cap the 'spill' channel.\nFor example when removing 'green spill':\n0 = green channel is capped by the red channel.\n\n0.5 = green channel is capped by half-mix of red and blue channels.\n\n1 = green channel is capped by the blue channel." R 0 2}
+ supp 0.5
+ addUserKnob {7 masterMult l Limiter t "Gain applied to the 'cap' channel to make the suppression more or less aggressive." R 0 10}
+ masterMult 1
+ addUserKnob {18 SpillTweak t "Adjust the luminance and color of the spill areas." R 0 10}
+ SpillTweak 1
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" +STARTLINE T "PxF_KillSpill 2.5.2 - (c) 2011 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -228
+  ypos 853
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos -496
+  ypos -217
+ }
+ Dot {
+  name Dot3
+  xpos -462
+  ypos -140
+ }
+set N24251590 [stack 0]
+ Dot {
+  name Dot2
+  xpos -689
+  ypos 208
+ }
+ Dot {
+  name Dot4
+  xpos -729
+  ypos 756
+ }
+push $N24251590
+ Dot {
+  name Dot1
+  xpos -156
+  ypos 744
+ }
+push $N24251590
+push $N24251590
+ Shuffle {
+  red blue
+  green blue
+  alpha black
+  name Blue
+  xpos 187
+  ypos 28
+ }
+set N2420fdf0 [stack 0]
+push $N24251590
+ Shuffle {
+  red green
+  blue green
+  alpha black
+  name Green
+  xpos 76
+  ypos 26
+ }
+set N23bea420 [stack 0]
+push $N24251590
+ Shuffle {
+  green red
+  blue red
+  alpha black
+  name Red
+  xpos -17
+  ypos 27
+ }
+set N23bdf040 [stack 0]
+ Switch {
+  inputs 3
+  which {{back_color i}}
+  name High
+  xpos -17
+  ypos 132
+ }
+push $N23bea420
+push $N23bdf040
+ Switch {
+  inputs 2
+  which {{"back_color == 0 ? 1 : back_color == 1 ? 0 : 0" i}}
+  name LowA
+  xpos 76
+  ypos 132
+ }
+ Multiply {
+  value {{"1 - supp" i}}
+  name Multiply1
+  xpos 76
+  ypos 190
+ }
+push $N2420fdf0
+push $N23bea420
+push 0
+ Switch {
+  inputs 3
+  which {{"back_color == 0 ? 2 : back_color == 1 ? 2 : 1" i}}
+  name LowB
+  xpos 187
+  ypos 140
+ }
+ Multiply {
+  value {{supp i}}
+  name Multiply2
+  xpos 187
+  ypos 187
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 138
+  ypos 299
+ }
+ Multiply {
+  value {{masterMult i}}
+  name Multiply3
+  xpos 138
+  ypos 327
+ }
+ Merge2 {
+  inputs 2
+  operation min
+  name Merge10
+  xpos -17
+  ypos 371
+ }
+set N23a059c0 [stack 0]
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  name ShuffleBlue
+  xpos -426
+  ypos 371
+ }
+push $N24251590
+push $N23a059c0
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue blue
+  name ShuffleGreen
+  xpos -526
+  ypos 369
+ }
+push $N24251590
+push $N23a059c0
+ ShuffleCopy {
+  inputs 2
+  green green
+  blue blue
+  name ShuffleRed
+  xpos -630
+  ypos 369
+ }
+ Switch {
+  inputs 3
+  which {{back_color i}}
+  name Switch1
+  xpos -526
+  ypos 424
+ }
+set N2426eea0 [stack 0]
+push $N24251590
+push $N2426eea0
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge9
+  xpos -338
+  ypos 547
+ }
+ Saturation {
+  saturation 0
+  name Saturation1
+  xpos -338
+  ypos 586
+ }
+ ColorCorrect {
+  gain {{SpillTweak.r i} {SpillTweak.g i} {SpillTweak.b i} {1 i}}
+  name ColorCorrect1
+  xpos -338
+  ypos 655
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos -526
+  ypos 655
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  xpos -526
+  ypos 740
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox A
+  name Keymix1
+  selected true
+  xpos -526
+  ypos 875
+  disable {{"\[exists parent.input1] ? 0 : 1" i}}
+ }
+set N23c17e60 [stack 0]
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 95
+  ypos 454
+ }
+push $N23c17e60
+ Output {
+  name Output1
+  xpos -526
+  ypos 980
+ }
+end_group

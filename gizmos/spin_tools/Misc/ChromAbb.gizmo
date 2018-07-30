@@ -1,0 +1,199 @@
+#! C:/Program Files (x86)/The Foundry/Nuke4.6/Nuke4.6.exe -nx
+version 4.6000
+Gizmo {
+ inputs 1
+ help "Start by setting the red, green and blue abberation sliders to slightly different values. Then edit the coverage settings to set the area of the image to be affected."
+ addUserKnob {20 "" l ChromAbb}
+ addUserKnob {26 "" l "Abberation settings"}
+ addUserKnob {7 red_abberation l "red abberation" t "Controls the abberation of the red channel" R 1 2}
+ red_abberation 1.04
+ addUserKnob {7 green_abberation l "green abberation" t "Controls the abberation of the green channel" R 1 2}
+ green_abberation 1.02
+ addUserKnob {7 blue_abberation l "blue abberation" t "Controls the abberation of the blue channel" R 1 2}
+ blue_abberation 1
+ addUserKnob {7 abberation_multiplier l INVISIBLE t "Increase r, g and b abberation proportionally" R 1 1.1}
+ abberation_multiplier 1
+ addUserKnob {41 red_blur l "red blur" T Blur4.size}
+ addUserKnob {41 green_blur l "green blur" T Blur2.size}
+ addUserKnob {41 blue_blur l "blue blur" T Blur1.size}
+ addUserKnob {26 "" l "Coverage settings"}
+ addUserKnob {12 center_position l "center position"}
+ center_position {{width/2 i} {height/2 i}}
+ addUserKnob {41 coverage_scale T TransformMasked1.scale}
+ addUserKnob {41 coverage_edge_blur l "coverage edge blur" T Blur3.size}
+ addUserKnob {41 coverage_softness l "coverage softness" T Radial1.softness}
+ addUserKnob {26 "" l ""}
+ addUserKnob {41 from0 l mask T Copy1.from0}
+ addUserKnob {41 disable_1 l invert T Invert1.disable}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 130
+  ypos -216
+ }
+set N61e8890 [stack 0]
+add_layer {abberation abberation.temp}
+ Radial {
+  output {-rgba.red -rgba.green -rgba.blue abberation.temp}
+  area {0 0 {width i} {height i}}
+  softness 0.5
+  p1 {100 400}
+  p0 {100 100}
+  name Radial1
+  xpos 130
+  ypos -190
+ }
+ Blur {
+  channels abberation
+  size 100
+  name Blur3
+  xpos 130
+  ypos -150
+ }
+ TransformMasked {
+  channels abberation
+  center {{center_position.x i} {center_position.y}}
+  name TransformMasked1
+  xpos 130
+  ypos -70
+ }
+ Crop {
+  box {0 0 2048 1168}
+  name Crop2
+  xpos 130
+  ypos -19
+ }
+set N83eddd0 [stack 0]
+ GodRays {
+  scale {{blue_abberation*abberation_multiplier i}}
+  center {{center_position.x i} {center_position.y i}}
+  mask abberation.temp
+  invert_mask true
+  name GodRays3
+  label blue
+  xpos 220
+  ypos 51
+ }
+ Blur {
+  size 1
+  mask abberation.temp
+  invert_mask true
+  name Blur1
+  label blue
+  xpos 220
+  ypos 105
+ }
+push $N83eddd0
+ GodRays {
+  scale {{red_abberation*abberation_multiplier i}}
+  center {{center_position.x i} {center_position.y i}}
+  mask abberation.temp
+  invert_mask true
+  name GodRays1
+  label red
+  xpos 38
+  ypos 55
+ }
+ Blur {
+  size 1
+  mask abberation.temp
+  invert_mask true
+  name Blur4
+  label red
+  xpos 38
+  ypos 109
+ }
+push $N83eddd0
+ GodRays {
+  scale {{green_abberation*abberation_multiplier i}}
+  center {{center_position.x i} {center_position.y i}}
+  mask abberation.temp
+  invert_mask true
+  name GodRays2
+  label green
+  xpos 130
+  ypos 53
+ }
+ Blur {
+  size 1
+  mask abberation.temp
+  invert_mask true
+  name Blur2
+  label green
+  xpos 130
+  ypos 107
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  name ShuffleCopy1
+  xpos 79
+  ypos 176
+ }
+ ShuffleCopy {
+  inputs 2
+  blue blue
+  name ShuffleCopy2
+  xpos 178
+  ypos 217
+ }
+ Crop {
+  box {0 0 {width i} {height}}
+  name Crop1
+  xpos 133
+  ypos 368
+ }
+ Remove {
+  channels abberation
+  name Remove1
+  xpos 133
+  ypos 394
+ }
+set N9036d10 [stack 0]
+ Dot {
+  name Dot2
+  xpos 55
+  ypos 506
+ }
+push $N9036d10
+ Invert {
+  name Invert1
+  xpos 297
+  ypos 394
+ }
+push $N61e8890
+ Dot {
+  name Dot1
+  xpos 489
+  ypos 246
+ }
+ Copy {
+  inputs 2
+  to0 rgba.alpha
+  name Copy1
+  xpos 455
+  ypos 394
+ }
+push $N9036d10
+ Merge2 {
+  inputs 2
+  operation matte
+  name Merge1
+  xpos 133
+  ypos 545
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 133
+  ypos 645
+ }
+ Output {
+  name Output1
+  xpos 133
+  ypos 818
+ }
+end_group

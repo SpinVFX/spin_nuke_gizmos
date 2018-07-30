@@ -1,0 +1,147 @@
+Group {
+ name PxF_Grain
+ help "Standard Nuke grain with a ColorLookup to adjust the response curve by channel."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {26 "" l "@b;Size"}
+ addUserKnob {41 red_size l red t "Size of the main noise generator." T Grain2_3.red_size}
+ addUserKnob {41 green_size l green t "Size of the main noise generator. " T Grain2_3.green_size}
+ addUserKnob {41 blue_size l blue t "Size of the main noise generator. " T Grain2_3.blue_size}
+ addUserKnob {26 "" l "@b;Irregularity"}
+ addUserKnob {41 red_i l red t "Size of the secondary noise generator. " T Grain2_3.red_i}
+ addUserKnob {41 green_i l green t "Size of the secondary noise generator. " T Grain2_3.green_i}
+ addUserKnob {41 blue_i l blue t "Size of the secondary noise generator. " T Grain2_3.blue_i}
+ addUserKnob {26 "" l "@b;Intensity"}
+ addUserKnob {41 red_m l red t "Global grain intensity (before response curve)." T Grain2_3.red_m}
+ addUserKnob {41 green_m l green t "Global grain intensity (before response curve)." T Grain2_3.green_m}
+ addUserKnob {41 blue_m l blue t "Global grain intensity (before response curve)." T Grain2_3.blue_m}
+ addUserKnob {26 r l "@b;Response" t "Use the 'red', 'green' and 'blue' curves to bias how much grain is applied in the shadows/mids/highlights.\nFlat RGB curves at 1.0 behaves the same as regular Nuke grain. Using the 'master' curve is not recommended."}
+ addUserKnob {6 v_cinSpace l "Cineon Colorspace" t "Convert pixel values to Cineon colorspace before applying the grain." +STARTLINE}
+ v_cinSpace true
+ addUserKnob {41 lut l "" t "Use the 'red', 'green' and 'blue' curves to bias how much grain is applied in the shadows/mids/highlights.\nFlat RGB curves at 1.0 behaves the same as regular Nuke grain. Using the 'master' curve is not recommended." +STARTLINE T ColorLookup1.lut}
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" +STARTLINE T "PxF_Grain 1.0.2 - (c) 2012 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -142
+  ypos 625
+  number 1
+ }
+ Dot {
+  name Dot2
+  xpos -108
+  ypos 1087
+ }
+ Input {
+  inputs 0
+  name img
+  xpos -329
+  ypos 474
+ }
+set N23b9e500 [stack 0]
+ Dot {
+  name Dot3
+  xpos -186
+  ypos 631
+ }
+ Dot {
+  name Dot1
+  xpos -186
+  ypos 985
+ }
+push $N23b9e500
+ Grade {
+  white 0
+  add 0.5
+  name Grade1
+  label "make grey frame"
+  xpos -526
+  ypos 595
+ }
+ Grain2 {
+  name Grain2_3
+  label "Kodak 5217"
+  seed {{random(frame*random(frame+123))*100000 i}}
+ }
+ Add {
+  value -0.5
+  name Add1
+  xpos -526
+  ypos 753
+ }
+push $N23b9e500
+ Colorspace {
+  colorspace_out Cineon
+  name Colorspace6
+  xpos -329
+  ypos 658
+  disable {{parent.v_cinSpace?0:1 i}}
+ }
+set N23b51250 [stack 0]
+ ColorLookup {
+  lut {master {}
+    red {curve 1 1}
+    green {curve 1 1}
+    blue {curve 1 1}
+    alpha {}}
+  name ColorLookup1
+  xpos -407
+  ypos 716
+ }
+ Clamp {
+  maximum 13
+  MaxClampTo 13
+  name Clamp1
+  xpos -407
+  ypos 756
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge26
+  xpos -407
+  ypos 831
+ }
+push $N23b51250
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge27
+  xpos -333
+  ypos 934
+ }
+ Colorspace {
+  colorspace_in Cineon
+  name Colorspace5
+  xpos -333
+  ypos 1011
+  disable {{parent.v_cinSpace?0:1 i}}
+ }
+set N23811190 [stack 0]
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  xpos -333
+  ypos 1088
+  disable {{"\[exists parent.input1] ? 0 : 1" i x1 0}}
+ }
+ Output {
+  name Output1
+  xpos -333
+  ypos 1164
+ }
+push $N23811190
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos -464
+  ypos 1104
+ }
+end_group

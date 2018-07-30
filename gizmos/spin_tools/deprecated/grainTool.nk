@@ -1,0 +1,724 @@
+#! /spin/software/nuke/8.0v6/linux/64/libnuke-8.0.v6.so -nx
+version 8.0 v6
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="2560" h="1573" screen="0">
+        <splitter orientation="1">
+            <split size="1871"/>
+            <splitter orientation="1">
+                <split size="40"/>
+                <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"/>
+                </dock>
+                <split size="1827"/>
+                <splitter orientation="2">
+                    <split size="1523"/>
+                    <splitter orientation="1">
+                        <split size="1498"/>
+                        <dock id="" activePageId="Viewer.1">
+                            <page id="Viewer.1"/>
+                        </dock>
+                        <split size="325"/>
+                        <dock id="" hideTitles="1" activePageId="com.spin.nuke.pluigins.ShotNotePanel">
+                            <page id="com.spin.nuke.pluigins.ShotNotePanel"/>
+                        </dock>
+                    </splitter>
+                    <split size="0"/>
+                    <dock id="" activePageId="DopeSheet.1">
+                        <page id="Curve Editor.1"/>
+                        <page id="DopeSheet.1"/>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="685"/>
+            <splitter orientation="2">
+                <split size="1461"/>
+                <dock id="" activePageId="Properties.1">
+                    <page id="Properties.1"/>
+                    <page id="Script Editor.1"/>
+                </dock>
+                <split size="62"/>
+                <dock id="" hideTitles="1" activePageId="com.spin.nuke.pluigins.kQubeSubmitter">
+                    <page id="com.spin.nuke.pluigins.kQubeSubmitter"/>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+    <window x="2560" y="400" w="1920" h="1200" screen="1">
+        <splitter orientation="2">
+            <split size="1180"/>
+            <dock id="" activePageId="DAG.2">
+                <page id="DAG.1"/>
+                <page id="DAG.2"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /spin/software/custom/2d/test/fc14/nuke7.0/angelo/gizmos/grainTool.nk
+ luts {linear {}
+   sRGB {}
+   rec709 {}
+   Cineon {}
+   Gamma1.8 {}
+   Gamma2.2 {}
+   Panalog {}
+   REDLog {}
+   ViperLog {}
+   AlexaV3LogC {}
+   PLogLin {}
+   SLog {}
+   SLog1 {}
+   REDSpace {}
+   S-Log {pow(10,(x-0.615971)*2.698893)-0.037584}}
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x803829ff
+ label "Spin Grain Tool"
+ note_font_size 28
+ selected true
+ xpos 1042
+ ypos -139
+ bdwidth 309
+ bdheight 266
+}
+Dot {
+ inputs 0
+ name Dot1
+ selected true
+ xpos 1296
+ ypos -1
+ hide_input true
+}
+push 0
+Group {
+ inputs 2
+ name GrainTool
+ knobChanged grainTool.grainMenu()
+ tile_color 0x589cffff
+ label "------------------\n(\[value outputView])\n\n"
+ selected true
+ xpos 1127
+ ypos -17
+ addUserKnob {20 piratesGrain l grain}
+ addUserKnob {22 refreshList l refresh -STARTLINE T "import grainTool\nreload(grainTool)\ngrainTool.refresh()"}
+ addUserKnob {22 savePreset l "save preset" -STARTLINE T "import grainTool\nreload(grainTool)\ngrainTool.saveGrainPresets()"}
+ addUserKnob {26 divider1 l " "}
+ addUserKnob {4 presets l preset M {custom default gotp_102}}
+ presets default
+ addUserKnob {26 ""}
+ addUserKnob {26 sept l " " T " "}
+ addUserKnob {26 bothEyeManager l "<b><i>grain settings</b></i><br>" T ""}
+ addUserKnob {4 stock l "grain stock" M {gotp_102}}
+ addUserKnob {6 splitEyes l "<b><font color = 'red '>split </font></b> <b><font color = 'blue '>eyes</font></b>" -STARTLINE +HIDDEN}
+ addUserKnob {26 divider3 l " " T " "}
+ addUserKnob {7 scaleGrainPlate l scale R 0.5 2}
+ scaleGrainPlate 1
+ addUserKnob {18 rgbGrain l rgb R 0 2}
+ rgbGrain {1 1 1}
+ addUserKnob {6 rgbGrain_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 multGrain l mult R -1 5}
+ multGrain 1
+ addUserKnob {7 sharpening l sharpen R 0 5}
+ addUserKnob {26 divider2 l " " T " "}
+ addUserKnob {26 matteTweaks l "<b><i>matte settings</b></i><br>" T ""}
+ addUserKnob {26 divider4 l " " T " "}
+ addUserKnob {7 Threshold l threshold R -1 1}
+ addUserKnob {7 dilateErode l dilate R 0 5}
+ dilateErode 1
+ addUserKnob {7 blurMatte l blur R 0 10}
+ blurMatte 2
+ addUserKnob {26 separator l "" +STARTLINE}
+ addUserKnob {6 filmResponse l "film response" +STARTLINE}
+ filmResponse true
+ addUserKnob {12 grainRes l resolution}
+ grainRes {2048 1152}
+ addUserKnob {26 separator1 l "" +STARTLINE}
+ addUserKnob {26 divider6 l " " T " "}
+ addUserKnob {4 method M {difference alpha "over all"}}
+ addUserKnob {4 outputView l output: M {"comp with grain" "grain in alpha" "grain plate" matte "matte overlay" "" "" "" "" "" "" ""}}
+ addUserKnob {7 opacityOverlay l "<b><font color = 'red '>opacity overlay</font>" -STARTLINE +HIDDEN}
+ opacityOverlay 0.6
+ addUserKnob {1 _class l INVISIBLE +INVISIBLE}
+ _class _grainTool_
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x338953ff
+  label "extract grain"
+  note_font_size 25
+  xpos 15
+  ypos 276
+  bdwidth 284
+  bdheight 378
+ }
+ Input {
+  inputs 0
+  name source
+  xpos 1722
+  ypos -73
+  number 1
+ }
+ Dot {
+  name Dot_input
+  xpos 1756
+  ypos 79
+ }
+set N3cfb450 [stack 0]
+ Input {
+  inputs 0
+  name final_comp
+  xpos 862
+  ypos -53
+ }
+ Dot {
+  name Dot1
+  xpos 896
+  ypos 885
+ }
+set N3b70f00 [stack 0]
+ Dot {
+  name Dot13
+  xpos 896
+  ypos 1101
+ }
+set N3b72c60 [stack 0]
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle2
+  xpos 569
+  ypos 2269
+ }
+ Read {
+  inputs 0
+  file /Network/Servers/xserve1.spinpro.com/mnt/useraccounts/aperrotta/.nuke/development/SpinVFX/grainTool/stocks/gotp_102/gotp_102.####.exr
+  format "2048 1152 0 0 2048 1152 1 "
+  before loop
+  last 50
+  after loop
+  origlast 50
+  origset true
+  on_error black
+  version 2
+  name readGRAIN
+  xpos 134
+  ypos 81
+ }
+set N3b2d850 [stack 0]
+ Reformat {
+  type "to box"
+  box_width {{grainRes.x}}
+  box_height {{grainRes.y}}
+  resize none
+  filter Rifman
+  name Reformat1
+  xpos 134
+  ypos 218
+ }
+ Dot {
+  name Dot4
+  xpos 168
+  ypos 419
+ }
+set N3ba0780 [stack 0]
+push $N3ba0780
+ Blur {
+  size 35
+  name Blur2
+  xpos 24
+  ypos 481
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge2
+  xpos 134
+  ypos 547
+ }
+ Group {
+  name grainScale_all
+  tile_color 0x87c600ff
+  xpos 134
+  ypos 716
+  addUserKnob {20 grainScale}
+  addUserKnob {7 grainScaleSlider l "grain scale" R 0.5 2}
+  grainScaleSlider {{scaleGrainPlate i}}
+ }
+  Input {
+   inputs 0
+   name InputIn
+   xpos 462
+   ypos 112
+  }
+  Dot {
+   name Dot4
+   xpos 496
+   ypos 153
+  }
+  Crop {
+   box {0 0 {input.width i} {input.height i}}
+   crop false
+   name Crop2
+   xpos 462
+   ypos 263
+  }
+set N3bcea00 [stack 0]
+  Transform {
+   scale {{"grainScaleSlider > 0.5 ? grainScaleSlider : 0.5" i}}
+   filter Simon
+   shutteroffset centred
+   name main_transform
+   xpos 462
+   ypos 384
+  }
+push $N3bcea00
+  Transform {
+   translate {{curve i} {"height * (1 + (-1 + main_transform.scale))" i}}
+   scale {{"main_transform.scale == 1 ? 0 : main_transform.scale" i}}
+   filter Simon
+   shutteroffset centred
+   name tile_y
+   xpos 582
+   ypos 386
+  }
+  Merge2 {
+   inputs 2
+   name Merge4
+   xpos 462
+   ypos 476
+  }
+set N3bf05c0 [stack 0]
+push $N3bf05c0
+  Dot {
+   name Dot26
+   xpos 662
+   ypos 480
+  }
+  Transform {
+   translate {{"width * (1 + (-1 + main_transform.scale))" i} {curve i}}
+   shutteroffset centred
+   name Transform2
+   xpos 628
+   ypos 532
+  }
+  Dot {
+   name Dot27
+   xpos 662
+   ypos 627
+  }
+  Merge2 {
+   inputs 2
+   name Merge5
+   xpos 462
+   ypos 622
+  }
+  Crop {
+   box {0 0 {width i} {height i}}
+   name Crop3
+   xpos 462
+   ypos 661
+  }
+set N3c1fae0 [stack 0]
+  Output {
+   name Output1
+   xpos 462
+   ypos 766
+  }
+push $N3c1fae0
+  Viewer {
+   input_process false
+   name Viewer1
+   xpos 620
+   ypos -11
+  }
+ end_group
+ Multiply {
+  channels rgb
+  value 4
+  name Multiply2
+  xpos 134
+  ypos 767
+  disable true
+ }
+ Multiply {
+  channels rgb
+  value {{rgbGrain.r i} {rgbGrain.g i} {rgbGrain.b i} {curve i}}
+  name rgb_grain_all
+  xpos 134
+  ypos 819
+ }
+ Multiply {
+  channels rgb
+  value {{multGrain i}}
+  name grain_all
+  xpos 134
+  ypos 854
+ }
+ Gamma {
+  value {1 1 1 1}
+  name Gamma1
+  xpos 134
+  ypos 921
+  disable true
+ }
+ Clamp {
+  minimum {-0.02 -0.02 -0.01 -0.02}
+  maximum 100
+  name Clamp1
+  xpos 134
+  ypos 959
+  disable true
+ }
+ Grade {
+  gamma {1 1 1 1}
+  black_clamp false
+  name Grade1
+  xpos 134
+  ypos 997
+  disable true
+ }
+ Sharpen {
+  size {{sharpening i}}
+  name Sharpen1
+  xpos 134
+  ypos 1053
+ }
+ Dot {
+  name Dot2
+  xpos 168
+  ypos 1242
+ }
+set N3c9db60 [stack 0]
+push $N3b70f00
+ Dot {
+  name Dot24
+  xpos 1329
+  ypos 885
+ }
+set N3ca1fb0 [stack 0]
+ Colorspace {
+  colorspace_out Cineon
+  name Colorspace3
+  xpos 1295
+  ypos 1105
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve 0 s0 x0.1199999973 1 x0.150000006 1 x0.2150000036 0.738 x0.4399999976 0.48 x0.5299999714 0.51 x0.7400000095 0.25 s-1.75 x1 0 s0}
+    green {curve C k 0 s0 S x0.1199999973 1 x0.150000006 1 x0.2199999988 0.8 x0.4350000024 0.61 x0.5550000072 0.55 x0.6399999857 0.585 x0.7300000191 0.465 C k x1 0 s0}
+    blue {curve C k 0 s0 S x0.1299999952 1 x0.1589999944 1 x0.2199999988 0.79 x0.3100000024 0.745 x0.474999994 0.85 x0.5500000119 0.84 0.86 x0.7400000095 0.606 s-2.799999952 C k x1 0 s0}
+    alpha {}}
+  name curveRespone1
+  xpos 1295
+  ypos 1155
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Multiply1
+  xpos 1295
+  ypos 1238
+ }
+push $N3c9db60
+ Switch {
+  inputs 2
+  which {{filmResponse i}}
+  name Switch1
+  xpos 1295
+  ypos 1346
+ }
+ Dot {
+  name Dot3
+  xpos 1329
+  ypos 1417
+ }
+set N3cdd1f0 [stack 0]
+push $N3ca1fb0
+ Dot {
+  name Dot25
+  xpos 1439
+  ypos 885
+ }
+set N3ce16c0 [stack 0]
+ Shuffle {
+  alpha black
+  name alpha_strip2d2
+  xpos 1498
+  ypos 881
+ }
+ Dot {
+  name Dot23
+  xpos 1532
+  ypos 945
+ }
+push $N3cfb450
+ Shuffle {
+  alpha black
+  name alpha_strip2d3
+  xpos 1722
+  ypos 873
+ }
+ Difference {
+  inputs 2
+  name Difference2
+  xpos 1722
+  ypos 933
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle3
+  xpos 1722
+  ypos 988
+ }
+ Expression {
+  temp_name0 R
+  temp_expr0 "r < Threshold ? 0 : r"
+  temp_name1 G
+  temp_expr1 "g < Threshold ? 0 : g"
+  temp_name2 B
+  temp_expr2 "b < Threshold ? 0 : b"
+  expr0 R
+  expr1 G
+  expr2 B
+  channel3 {none none none -rgba.alpha}
+  name Threshold1
+  xpos 1722
+  ypos 1260
+ }
+ Blur {
+  channels rgba
+  size {{dilateErode}}
+  name dilate_erode_blur1
+  xpos 1722
+  ypos 1314
+ }
+ Unpremult {
+  name Unpremult1
+  xpos 1722
+  ypos 1386
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle5
+  xpos 1722
+  ypos 1451
+ }
+ Blur {
+  channels rgba
+  size {{blurMatte i}}
+  name blur_matte1
+  xpos 1722
+  ypos 1565
+ }
+set N3d4e5d0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation in
+  name In2
+  xpos 1722
+  ypos 1766
+ }
+ Shuffle {
+  alpha black
+  name Shuffle7
+  xpos 1722
+  ypos 1792
+ }
+set N3d67490 [stack 0]
+push $N3b72c60
+ Log2Lin {
+  operation lin2log
+  name Log2Lin10
+  xpos 1215
+  ypos 2045
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge8
+  xpos 1215
+  ypos 2106
+ }
+ Log2Lin {
+  name Log2Lin11
+  xpos 1215
+  ypos 2176
+ }
+set N3d8f600 [stack 0]
+push $N3d4e5d0
+ Switch {
+  inputs 3
+  which {{method i}}
+  name Switch_method3
+  xpos 569
+  ypos 2346
+ }
+ Shuffle {
+  red alpha
+  green black
+  blue black
+  name Shuffle8
+  xpos 569
+  ypos 2410
+ }
+push $N3cdd1f0
+ Dot {
+  name Dot27
+  xpos 1329
+  ypos 1914
+ }
+set N3db0430 [stack 0]
+push $N3b72c60
+ Log2Lin {
+  operation lin2log
+  name Log2Lin6
+  xpos 862
+  ypos 1850
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge4
+  xpos 862
+  ypos 1910
+ }
+ Log2Lin {
+  name Log2Lin7
+  xpos 862
+  ypos 1985
+ }
+push $N3cdd1f0
+push $N3ce16c0
+ Dot {
+  name Dot26
+  label ORIGINAL_ALPHA
+  xpos 1439
+  ypos 1677
+ }
+set N3ddb1a0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation in
+  name In1
+  xpos 1405
+  ypos 1778
+ }
+ Shuffle {
+  alpha black
+  name Shuffle6
+  xpos 1405
+  ypos 1804
+ }
+set N3deccc0 [stack 0]
+push $N3b72c60
+ Log2Lin {
+  operation lin2log
+  name Log2Lin8
+  xpos 1030
+  ypos 1967
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge7
+  xpos 1030
+  ypos 2028
+ }
+ Log2Lin {
+  name Log2Lin9
+  xpos 1030
+  ypos 2102
+ }
+push $N3d8f600
+ Switch {
+  inputs 3
+  which {{method i}}
+  name Switch_method
+  xpos 862
+  ypos 2422
+ }
+set N3e208f0 [stack 0]
+ Merge2 {
+  inputs 2
+  mix {{opacityOverlay i}}
+  name Merge3
+  xpos 569
+  ypos 2546
+ }
+push $N3b72c60
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle4
+  xpos 1543
+  ypos 2213
+ }
+push $N3ddb1a0
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos 1650
+  ypos 2211
+ }
+push $N3d4e5d0
+ Switch {
+  inputs 3
+  which {{method i}}
+  name Switch_method2
+  xpos 1722
+  ypos 2339
+ }
+push $N3cdd1f0
+push $N3db0430
+push $N3deccc0
+push $N3d67490
+ Switch {
+  inputs 3
+  which {{method i}}
+  name Switch_method1
+  xpos 1306
+  ypos 2334
+ }
+push $N3e208f0
+ Switch {
+  inputs 5
+  which {{outputView i}}
+  name Switchoutput
+  xpos 862
+  ypos 2638
+ }
+ CopyMetaData {
+  inputs 2
+  name CopyMetaData1
+  xpos 862
+  ypos 2712
+ }
+ Output {
+  name Output1
+  xpos 862
+  ypos 2738
+ }
+push $N3b2d850
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 134
+  ypos 165
+ }
+end_group

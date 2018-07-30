@@ -1,0 +1,56 @@
+RotoPaint {
+ cliptype bbox
+ curves {AnimTree: "" {
+ Version: 1.2
+ Flag: 0
+ RootNode: 1
+ Node: {
+  NodeName: "Root" {
+   Flag: 512
+   NodeType: 1
+   Transform: 0 0 S 0 0 S 0 0 S 0 0 S 0 1 S 0 1 S 0 0 S 0 1052 S 0 592 
+   NumOfAttributes: 11
+   "vis" S 0 1 "opc" S 0 1 "mbo" S 0 1 "mb" S 0 1 "mbs" S 0 0.5 "fo" S 0 1 "fx" S 0 0 "fy" S 0 0 "ff" S 0 1 "ft" S 0 0 "pt" S 0 0 
+  }
+  NumOfChildren: 1
+  Node: {
+   NodeName: "Brush1" {
+    Flag: 576
+    NodeType: 5
+    CubicCurve: "" {
+     Transform: 0 0 S 0 0 S 0 0 S 0 0 S 0 1 S 0 1 S 0 0 S 0 1110.71 S 0 481.529 
+     Type: 3 Flag: 2080 Dim: 3
+     NumOfPoints: 2
+     0 L 0 36864 0.5 2 0 0 "" 0 0 401.5 L 0 36864 0.5 2 0 0 "" 0 0 400 L 0 36864 0.5 2 0 0 "" 0 0 0.503021 0 0 L 0 36864 0.5 2 0 0 "" 0 0 799.5 L 0 36864 0.5 2 0 0 "" 0 0 400 L 0 36864 0.5 2 0 0 "" 0 0 0.5 0 
+     NumOfAttributes: 46
+     "vis" S 0 1 "r" S 0 1 "g" S 0 1 "b" S 0 1 "a" S 0 1 "ro" S 0 1 "go" S 0 1 "bo" S 0 1 "ao" S 0 1 "opc" S 0 1 "bs" S 0 25 "bsp" S 0 0.05 "h" S 0 0.25 "bm" S 0 0 "dt" S 0 0 "ds" S 0 0 "dh" S 0 0 "bt" S 0 0 "bu" S 0 0 "inv" S 0 0 "src" S 0 0 "stx" S 0 0 "sty" S 0 0 "str" S 0 0 "sr" S 0 0 "ssx" S 0 1 "ssy" S 0 1 "ss" S 0 0 "spx" S 0 1052 "spy" S 0 592 "stot" S 0 0 "sto" S 0 0 "sv" S 0 0 "sf" S 0 1 "sb" S 0 1 "ltn" S 0 1045 "ltm" S 0 1045 "ltt" S 0 0 "ws" S 0 0 "we" S 0 1 "ep1" S 0 0 "ep2" S 0 0 "ep3" S 0 0 "tt" S 0 14 "nv" S 0 1 "view1" S 0 1 
+    }
+   }
+   NumOfChildren: 0
+  }
+ }
+}
+}
+ toolbox {selectAll {
+  { selectCurves tt 1 }
+  { brush ltn 1045 ltm 1045 tt 14 }
+} }
+ toolbar_show_paint_selection true
+ toolbar_brush_hardness 0.200000003
+ toolbar_lifetime_type all
+ toolbar_source_transform_scale {1 1}
+ toolbar_source_transform_center {320 240}
+ colorOverlay 1
+ lifetime_type "all frames"
+ lifetime_start 1045
+ lifetime_end 1045
+ center {1110.709961 481.5289917}
+ motionblur_on true
+ brush_spacing 0.05000000075
+ brush_hardness 0.25
+ dynamic_transparency false
+ buildup false
+ source_black_outside true
+ tile_color 0x733520ff
+ name PxF_Line
+}

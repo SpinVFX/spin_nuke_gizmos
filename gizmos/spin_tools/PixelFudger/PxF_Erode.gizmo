@@ -1,0 +1,136 @@
+
+Group {
+ name PxF_Erode
+ help "Erode the edges of an RGBA image by blurring the alpha, applying a gamma to it and doing a \"min\" with the original alpha."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {7 amount t "Amount of alpha erode. Positive values erode the alpha, negative values expand the alpha." R -100 100}
+ amount 5
+ addUserKnob {7 gamma t "Controls the feather of the erode. Smaller values create a harder edge."}
+ gamma 0.5
+ addUserKnob {4 dSel l divide t "Auto: Unpremult the RGB by the alpha only if amount > 0. \n\nOn: Always unpremult RGB by the alpha.\n\nOff: Never unpremult the RGB by the alpha." M {auto on off "" ""}}
+ addUserKnob {4 mSel l multiply t "Auto: Premult the RGB by the alpha after the erode only if amount > 0. \n\nOn: Always premult the RGB by the alpha after the erode.\n\nOff: Never premult the RGB by the alpha after the erode." M {auto on off "" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" -STARTLINE T "PxF_Erode 2.1 - (c) 2015 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 675
+  ypos 423
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 501
+  ypos -28
+ }
+set N9d80e8b0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 735
+  ypos 245
+ }
+push $N9d80e8b0
+ Unpremult {
+  name Unpremult1
+  xpos 501
+  ypos 49
+  disable {{"parent.dSel == 0 ? parent.amount < 0 ? 1 : 0 : parent.dSel == 1 ? 0 : 1"}}
+ }
+set Nc4330ab0 [stack 0]
+push $Nc4330ab0
+ Invert {
+  name Invert1
+  xpos 374
+  ypos 45
+  disable {{"amount < 0 ? 0 : 1"}}
+ }
+ Blur {
+  channels alpha
+  size {{abs(parent.amount)}}
+  name Blur1
+  xpos 381
+  ypos 93
+ }
+ Gamma {
+  channels alpha
+  value {{parent.gamma}}
+  name Gamma1
+  xpos 381
+  ypos 153
+ }
+ Invert {
+  name Invert2
+  xpos 371
+  ypos 208
+  disable {{"amount < 0 ? 0 : 1"}}
+ }
+set N9975d960 [stack 0]
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 459
+  ypos 294
+ }
+set Nbe9484c0 [stack 0]
+push $Nc4330ab0
+push $Nc4330ab0
+push $N9975d960
+ Merge2 {
+  inputs 2
+  operation mask
+  name In
+  xpos 325
+  ypos 286
+ }
+ Switch {
+  inputs 2
+  which {{"parent.amount == 0"}}
+  name Switch2
+  xpos 330
+  ypos 322
+ }
+ Switch {
+  inputs 2
+  which {{"parent.amount < 0 ? 1 : 0"}}
+  name Switch1
+  xpos 393
+  ypos 359
+ }
+push $Nc4330ab0
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  xpos 510
+  ypos 355
+ }
+ Premult {
+  name Premult1
+  xpos 510
+  ypos 399
+  disable {{"parent.mSel == 0 ? parent.amount < 0 ? 1 : 0 : parent.mSel == 1 ? 0 : 1"}}
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  xpos 508
+  ypos 477
+  disable {{"\[exists parent.input1] ? 0 : 1" i x1 0}}
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 546
+ }
+push $Nbe9484c0
+ Viewer {
+  frame_range 1-100
+  name Viewer1
+  xpos 501
+  ypos 129
+ }
+end_group

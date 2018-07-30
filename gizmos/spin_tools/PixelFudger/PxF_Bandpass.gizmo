@@ -1,0 +1,105 @@
+Group {
+ name PxF_Bandpass
+ help "Extract detail from an image by subtracting the original image from a blur of itself.\nUseful to enhance an image for easier tracking."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {41 colorspace_out l Colorspace t "Pixel values will be converted from linear to this colorspace before processing." T Colorspace1.colorspace_out}
+ addUserKnob {41 blur_1 l blurAmount1 T Blur1.size}
+ addUserKnob {41 blur_2 l blurAmount2 T Blur2.size}
+ addUserKnob {7 brightness l Gain t "Overall gain applied after bandpass filter." R 0 20}
+ brightness 5
+ addUserKnob {41 saturation t "Overall saturation after bandpass and gain." T Saturation1.saturation}
+ addUserKnob {7 offset l offsetDarks t "Constant added after bandpass."}
+ offset 0.5
+ addUserKnob {6 bc l "black clamp" t "Clamp values < 0 to 0." +STARTLINE}
+ bc true
+ addUserKnob {6 wc l "white clamp" t "Clamp values > 1 to 1." -STARTLINE}
+ wc true
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" t "Applies a bandpass filter to the image to isolate certain spacial frequencies. Useful to enhance detail to make footage easier to track. Used to add detail to an image " -STARTLINE T "PxF_Bandpass 2.0.3 - (c) 2012 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 359
+  ypos 157
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 171
+  ypos -273
+ }
+set N238b3760 [stack 0]
+ Dot {
+  name Dot1
+  xpos 405
+  ypos 31
+ }
+set N24355350 [stack 0]
+push $N24355350
+push $N238b3760
+ Colorspace {
+  colorspace_out Cineon
+  name Colorspace1
+  xpos 171
+  ypos -163
+ }
+set N23f5a9e0 [stack 0]
+ Blur {
+  name Blur1
+  xpos 132
+  ypos -126
+ }
+push $N23f5a9e0
+ Blur {
+  size 20
+  name Blur2
+  xpos 227
+  ypos -127
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge1
+  xpos 180
+  ypos -71
+ }
+ Grade {
+  white {{brightness i}}
+  add {{offset i}}
+  black_clamp {{bc i}}
+  white_clamp {{wc i}}
+  name Grade1
+  xpos 180
+  ypos 4
+ }
+ Saturation {
+  saturation 0
+  name Saturation1
+  xpos 180
+  ypos 47
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  xpos 180
+  ypos 163
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  selected true
+  xpos 180
+  ypos 229
+  disable {{"\[exists parent.input1] ? 0 : 1" i x1 0}}
+ }
+ Output {
+  name Output1
+  xpos 180
+  ypos 296
+ }
+end_group

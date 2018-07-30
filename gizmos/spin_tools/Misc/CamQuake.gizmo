@@ -1,0 +1,218 @@
+set cut_paste_input [stack 0]
+version 9.0 v5
+push $cut_paste_input
+Group {
+ name CamQuake
+ label "v3.0 - ct"
+ selected true
+ xpos 48117
+ ypos -104192
+ addUserKnob {20 Controls}
+ addUserKnob {20 PreShakeTransform l "Pre-Shake Transform" n 1}
+ addUserKnob {12 xformSizeOriginal_translate l Translate t "Use to translate image before you shake it"}
+ addUserKnob {14 xformSizeOriginal_scale l Scale t "Use to scale image before you shake it" R 0 100}
+ xformSizeOriginal_scale 1
+ addUserKnob {12 xformSizeOriginal_center l "XY Center" t "center of the pre-shake transform"}
+ xformSizeOriginal_center {{width/2} {height/2}}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {7 global_amt l "Global Shake Amt"}
+ global_amt 1
+ addUserKnob {26 ""}
+ addUserKnob {20 ShakeControls l "Shake Controls" n 1}
+ addUserKnob {6 motiontileEnable l "Enable Motion Tile" -STARTLINE}
+ motiontileEnable true
+ addUserKnob {6 shkenable l "Enable Shake" t "Use this for enabling or disabling the shake" -STARTLINE}
+ shkenable true
+ addUserKnob {26 ""}
+ addUserKnob {7 xformShake_RandomA l "Min Shake" t "Lower random seed" R 0 10}
+ xformShake_RandomA -2
+ addUserKnob {7 xformShake_RandomB l "Max Shake" t "Higher random seed" R 0 50}
+ xformShake_RandomB 2
+ addUserKnob {26 ""}
+ addUserKnob {14 xformShake_shkamount l "Shake Amplitude" t "Gimme some big (or little) shake." R 0 100}
+ xformShake_shkamount 20
+ addUserKnob {7 xformShake_ShakeSmoothness l "Shake Frequency" t "Amount of smoothness in the shake" R 0 10}
+ xformShake_ShakeSmoothness 3
+ addUserKnob {26 ""}
+ addUserKnob {7 scale_amt l "Z Scale Amount"}
+ scale_amt 0.2
+ addUserKnob {26 ""}
+ addUserKnob {7 rot_amt l "Rotation Amount" t "Additional z rotation shake can be added with this\nset to 0 for no rotation (disable)"}
+ rot_amt 1
+ addUserKnob {12 rot_center l "Rotation Center" t "This is the center of rotation"}
+ rot_center {{width/2} {height/2}}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 div l "" +STARTLINE}
+ addUserKnob {41 motionblur T Transform2.motionblur}
+ addUserKnob {41 shutter T Transform2.shutter}
+ addUserKnob {41 shutteroffset l "shutter offset" T Transform2.shutteroffset}
+ addUserKnob {41 shuttercustomoffset l "" -STARTLINE T Transform2.shuttercustomoffset}
+ addUserKnob {26 ""}
+ addUserKnob {0 "" +INVISIBLE}
+ addUserKnob {26 "" -STARTLINE T "\n\n(original CameraShake2D gizmo written by Throb)"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 379
+  ypos 12
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  name Crop2
+  xpos 379
+  ypos 67
+ }
+ Dot {
+  name Dot12
+  xpos 413
+  ypos 125
+ }
+set N1e6ed6f0 [stack 0]
+ Transform {
+  scale -1
+  center {0 {height}}
+  shutteroffset centred
+  name Transform17
+  xpos 520
+  ypos 130
+ }
+push $N1e6ed6f0
+ Transform {
+  scale -1
+  shutteroffset centred
+  name Transform16
+  xpos 518
+  ypos 249
+ }
+push $N1e6ed6f0
+ Transform {
+  scale -1
+  center {{width} 0}
+  shutteroffset centred
+  name Transform15
+  xpos 769
+  ypos 250
+ }
+push $N1e6ed6f0
+ Transform {
+  scale -1
+  center {{width} {height}}
+  shutteroffset centred
+  name Transform14
+  xpos 763
+  ypos 133
+ }
+push $N1e6ed6f0
+ Transform {
+  scale {1 -1}
+  center {{width/2} 0}
+  shutteroffset centred
+  name Transform13
+  xpos 638
+  ypos 249
+ }
+push $N1e6ed6f0
+ Transform {
+  scale {1 -1}
+  center {{width/2} {height}}
+  shutteroffset centred
+  name Transform12
+  xpos 630
+  ypos 132
+ }
+push $N1e6ed6f0
+ Transform {
+  scale {-1 1}
+  center {0 {height/2}}
+  shutteroffset centred
+  name Transform11
+  xpos 522
+  ypos 191
+ }
+push 0
+push $N1e6ed6f0
+ Transform {
+  scale {-1 1}
+  center {{width} {height/2}}
+  shutteroffset centred
+  name Transform10
+  xpos 765
+  ypos 187
+ }
+push $N1e6ed6f0
+ Merge2 {
+  inputs 9+1
+  name Merge10
+  xpos 379
+  ypos 271
+  disable {{!motiontileEnable}}
+ }
+ Transform {
+  translate {{xformSizeOriginal_translate.x} {xformSizeOriginal_translate.y}}
+  scale {{xformSizeOriginal_scale.w}}
+  center {{xformSizeOriginal_center.x} {xformSizeOriginal_center.y}}
+  filter Rifman
+  name Transform
+  label "Pre-Shake Translate"
+  xpos 379
+  ypos 364
+ }
+ Transform {
+  translate {{"(((((RandomA - 1) - RandomB + 1) * noise(frame*(1/ShakeSmoothness),0,5) + ShakeSmoothness) * shkamount)-(shkamount*ShakeSmoothness))*global_amt"} {"(((((RandomA - 1) - RandomB + 1) * noise((frame+20)*(1/ShakeSmoothness),0,5) + ShakeSmoothness) * shkamount.h)-(shkamount.h*ShakeSmoothness))*global_amt"}}
+  center {{rot_center.x} {rot_center.y}}
+  filter Rifman
+  name Transform1
+  label ShakeXY
+  xpos 379
+  ypos 490
+  addUserKnob {20 "" l User}
+  addUserKnob {7 RandomA l "Low Random" R 0 10}
+  RandomA {{parent.xformShake_RandomA}}
+  addUserKnob {7 RandomB l "High Random" R 0 50}
+  RandomB {{parent.xformShake_RandomB}}
+  addUserKnob {7 ShakeAmount l "Shake Amount" t "adjust for shake multiplier" R 0 10}
+  ShakeAmount {{parent.xformShake_ShakeAmount}}
+  addUserKnob {7 ShakeSmoothness l "Shake Smoothness" t "Smooth out shake curve.\nHigher values means a smoother shake." R 0 10}
+  ShakeSmoothness {{parent.xformShake_ShakeSmoothness}}
+  addUserKnob {14 shkamount l "Shake Amount" t shkamount R 0 100}
+  shkamount {{parent.xformShake_shkamount.w} {parent.xformShake_shkamount.h}}
+ }
+ Transform {
+  rotate {{"((((rot_amt - 1) - rot_amt*-1 + 1) * noise(frame*(1/ShakeSmoothness),0,5)) * rot_amt)*global_amt"}}
+  scale {{global_amt==1?1+(((scale_amt-1)-scale_amt*-1+.4)*noise(frame*(2/ShakeSmoothness),0,5)*scale_amt):1}}
+  center {{rot_center.x} {rot_center.y}}
+  filter Rifman
+  motionblur 1
+  shutteroffset centred
+  shuttercustomoffset 0.5
+  name Transform2
+  label ShakeRotate
+  xpos 379
+  ypos 564
+  addUserKnob {20 "" l User}
+  addUserKnob {7 RandomA l "Low Random" R 0 10}
+  RandomA {{parent.xformShake_RandomA}}
+  addUserKnob {7 RandomB l "High Random" R 0 50}
+  RandomB {{parent.xformShake_RandomB}}
+  addUserKnob {7 ShakeAmount l "Shake Amount" t "adjust for shake multiplier" R 0 10}
+  ShakeAmount {{parent.xformShake_ShakeAmount}}
+  addUserKnob {7 ShakeSmoothness l "Shake Smoothness" t "Smooth out shake curve.\nHigher values means a smoother shake." R 0 10}
+  ShakeSmoothness {{parent.xformShake_ShakeSmoothness}}
+  addUserKnob {14 shkamount l "Shake Amount" t shkamount R 0 100}
+  shkamount {{parent.xformShake_shkamount.w} {parent.xformShake_shkamount.h}}
+ }
+ Crop {
+  box {0 0 {width} {input.height}}
+  name Crop1
+  xpos 379
+  ypos 700
+ }
+ Output {
+  name Output1
+  xpos 379
+  ypos 774
+ }
+end_group
+ 

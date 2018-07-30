@@ -1,0 +1,51 @@
+#! /s/apps/lin/nuke/Nuke6.2v4/Nuke6.2 -nx
+version 6.2 v4
+Gizmo {
+ addUserKnob {20 User l EdgeExtend2}
+ addUserKnob {41 threshold T LevelSet1.threshold}
+ addUserKnob {7 Size R 0 50}
+ Size 20
+ addUserKnob {41 gradient_extrapolate l "gradient extrapolate" T LevelSet1.gradient_extrapolate}
+ addUserKnob {41 size l PreBlur T EdgeBlur1.size}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -223
+  ypos -359
+ }
+ EdgeBlur {
+  channels rgba
+  size 0
+  edge_mult 4
+  name EdgeBlur1
+  xpos -223
+  ypos -319
+ }
+ Unpremult {
+  name Unpremult2
+  xpos -223
+  ypos -279
+ }
+ AdjBBox {
+  numpixels {{parent.LevelSet1.matte_limit i}}
+  name AdjBBox1
+  xpos -223
+  ypos -215
+ }
+ LevelSet {
+  output none
+  gradient none
+  create_matte true
+  matte_limit {{parent.Size}}
+  extrapolated rgba
+  name LevelSet1
+  xpos -223
+  ypos -189
+ }
+ Output {
+  name Output1
+  xpos -223
+  ypos -89
+ }
+end_group

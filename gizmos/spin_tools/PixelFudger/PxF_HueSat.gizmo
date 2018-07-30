@@ -1,0 +1,92 @@
+Group {
+ name PxF_HueSat
+ help "Simple hue and saturation adjustment by adding constants to pixel values in HSL colorspace."
+ tile_color 0x733520ff
+ addUserKnob {20 User}
+ addUserKnob {7 vHue l Hue t "Hue adjustment. +1 = 360 degrees. " R -1 1}
+ addUserKnob {7 vSat l Saturation t "Amount of saturation." R 0 4}
+ vSat 1
+ addUserKnob {6 filternan l "Blackout inf and nan" t "Converting from HSL back to RGB sometimes generates 'inf' and 'nan' pixels. Turning this on turns these pixels black." +STARTLINE}
+ filternan true
+ addUserKnob {26 ""}
+ addUserKnob {26 t l "" +STARTLINE T "PxF_HueSat 2.1.2 - (c) 2012 - Xavier Bourque - www.pixelfudger.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 385
+  ypos -24
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 231
+  ypos -301
+ }
+set N23aef270 [stack 0]
+ Dot {
+  name Dot1
+  xpos 389
+  ypos -106
+ }
+push $N23aef270
+ Colorspace {
+  colorspace_out HSL
+  name Colorspace2
+  xpos 231
+  ypos -176
+ }
+ Add {
+  channels {rgba.red -rgba.green -rgba.blue}
+  value {{vHue i}}
+  name Add1
+  xpos 231
+  ypos -145
+ }
+ Multiply {
+  channels {-rgba.red rgba.green -rgba.blue}
+  value {{vSat i}}
+  name Multiply1
+  xpos 231
+  ypos -111
+ }
+ Colorspace {
+  colorspace_in HSL
+  name Colorspace3
+  xpos 231
+  ypos -66
+ }
+ Expression {
+  expr0 "isinf(r) || isnan(r) ? 0 : r"
+  expr1 "isinf(g) || isnan(g) ? 0 : g"
+  expr2 "isinf(b) || isnan(b) ? 0 : b"
+  name Expression1
+  selected true
+  xpos 231
+  ypos 3
+  disable {{"parent.filternan ? 0 : 1" i}}
+ }
+set N23a62cb0 [stack 0]
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix1
+  xpos 231
+  ypos 80
+  disable {{"\[exists parent.input1] ? 0 : 1" x1 0}}
+ }
+ Output {
+  name Output1
+  xpos 231
+  ypos 169
+ }
+push $N23a62cb0
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 431
+  ypos 80
+ }
+end_group

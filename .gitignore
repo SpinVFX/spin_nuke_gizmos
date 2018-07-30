@@ -1,0 +1,14 @@
+*.py[cod]
+.nfs*
+*.directory
+*~
+.idea/
+*.autosave
+*.orig
+*.bak
+build/
+*.*-swp
+fontconfig/
+_old/
+/.project
+doc/_api
