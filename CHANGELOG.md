@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 
+## [1.0.2] - 2018-08-31
+
+### Fixed
+- Removed the "default" view from stereo nudge
+
+
 ## [1.0.1] - 2018-08-07
 
 ### Added 
