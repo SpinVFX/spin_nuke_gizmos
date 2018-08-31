@@ -1,7 +1,7 @@
 {
 	"name": "nuke_gizmos",
 	"description": "spin nuke gizmos",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"requires":
 	{
 		"spin2d": "3.0+"
