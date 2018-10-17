@@ -16,45 +16,46 @@ Gizmo {
  addUserKnob {6 legalize t "Normal maps should generally be represented with a vector magnitude of 1.\nTurning on legalization will scale all vectors to ensure they all have a magnitude of 1.\n\nYou may want to disable it for more interesting effects when generating normals for a fake refraction through an iDistort, where having vectors of different length adds depth." -STARTLINE}
  legalize true
  addUserKnob {26 ""}
- addUserKnob {26 copyright l "" t www.erwanleroy.com +STARTLINE T "v1.1 - Part of VectorTools by Erwan Leroy"}
+ addUserKnob {26 copyright l "" t www.erwanleroy.com +STARTLINE T "v1.2 - Part of VectorTools by Erwan Leroy"}
 }
  Input {
   inputs 0
   name Input
   xpos -576
-  ypos -296
+  ypos -391
  }
  Saturation {
   saturation 0
   name Saturation1
   xpos -576
-  ypos -237
+  ypos -332
  }
  Blur {
   size {{parent.blur}}
   name Blur2
   xpos -576
-  ypos -196
+  ypos -291
  }
  Multiply {
   value {{0.5*parent.gain}}
   name Multiply1
   xpos -576
-  ypos -134
+  ypos -229
  }
-set Nabbcd80 [stack 0]
+set N867b230 [stack 0]
  Blur {
   size {{parent.size}}
   name Blur1
   xpos -576
-  ypos -83
+  ypos -178
  }
  Dot {
   name Dot2
+  tile_color 0xcc804e00
   xpos -542
-  ypos -45
+  ypos -140
  }
-set Nab9f720 [stack 0]
+set N86946a0 [stack 0]
  Matrix {
   matrix {
       {2 0 -2}
@@ -63,15 +64,17 @@ set Nab9f720 [stack 0]
     }
   name Matrix1
   xpos -576
-  ypos 38
+  ypos -57
  }
-push $Nab9f720
+set N86991e0 [stack 0]
+push $N86946a0
  Dot {
   name Dot3
+  tile_color 0xcc804e00
   xpos -432
-  ypos -45
+  ypos -140
  }
-set Nb290e60 [stack 0]
+set N86a4690 [stack 0]
  Matrix {
   matrix {
       {-2 -1 -2}
@@ -80,12 +83,13 @@ set Nb290e60 [stack 0]
     }
   name Matrix2
   xpos -466
-  ypos 37
+  ypos -58
  }
  Dot {
   name Dot4
+  tile_color 0xcc804e00
   xpos -432
-  ypos 92
+  ypos -3
  }
  ShuffleCopy {
   inputs 2
@@ -94,34 +98,43 @@ set Nb290e60 [stack 0]
   alpha black
   name ShuffleCopy1
   xpos -575
-  ypos 88
+  ypos -7
  }
  Multiply {
   value {{(1-parent.details_weight)*(parent.size/10+1)}}
   name Multiply2
   xpos -577
-  ypos 128
+  ypos 33
  }
-push $Nb290e60
-push $Nabbcd80
+ Multiply {
+  value {{"proxy ? (proxy_type ? proxy_scale : \[lindex \[value proxy_format] 0] / \[lindex \[value format] 0]) : 1"}}
+  name Multiply4
+  selected true
+  xpos -577
+  ypos 105
+ }
+push $N86a4690
+push $N867b230
  Dot {
   name Dot1
+  tile_color 0x7aa9ff00
   xpos -319
-  ypos -124
+  ypos -219
  }
  Merge2 {
   inputs 2
   operation from
   name Merge1
   xpos -353
-  ypos -49
+  ypos -144
  }
  Dot {
   name Dot5
+  tile_color 0x4b5ec600
   xpos -319
-  ypos -23
+  ypos -118
  }
-set Nac72810 [stack 0]
+set N86e8f80 [stack 0]
  Matrix {
   matrix {
       {2 0 -2}
@@ -130,13 +143,14 @@ set Nac72810 [stack 0]
     }
   name Matrix3
   xpos -353
-  ypos 31
+  ypos -64
  }
-push $Nac72810
+push $N86e8f80
  Dot {
   name Dot6
+  tile_color 0x4b5ec600
   xpos -181
-  ypos -23
+  ypos -118
  }
  Matrix {
   matrix {
@@ -146,12 +160,13 @@ push $Nac72810
     }
   name Matrix4
   xpos -215
-  ypos 33
+  ypos -62
  }
  Dot {
   name Dot7
+  tile_color 0xcc804e00
   xpos -181
-  ypos 87
+  ypos -8
  }
  ShuffleCopy {
   inputs 2
@@ -160,16 +175,24 @@ push $Nac72810
   alpha black
   name ShuffleCopy2
   xpos -353
-  ypos 83
+  ypos -12
  }
  Multiply {
   value {{parent.details_weight}}
   name Multiply3
   xpos -353
-  ypos 119
+  ypos 24
+ }
+ Multiply {
+  value {{"proxy ? (proxy_type ? proxy_scale : \[lindex \[value proxy_format] 0] / \[lindex \[value format] 0]) : 1"}}
+  name Multiply5
+  selected true
+  xpos -353
+  ypos 111
  }
  Dot {
   name Dot8
+  tile_color 0x7aa9ff00
   xpos -319
   ypos 188
  }
@@ -190,7 +213,7 @@ push $Nac72810
   ypos 221
   disable {{1-parent.legalize}}
  }
-set Naeaad60 [stack 0]
+set N873c360 [stack 0]
  Dot {
   name Dot9
   xpos -400
@@ -217,7 +240,7 @@ set Naeaad60 [stack 0]
   xpos -400
   ypos 378
  }
-push $Naeaad60
+push $N873c360
  Expression {
   temp_name0 facing
   temp_expr0 sqrt(-pow(r,2)-pow(g,2)+1)
