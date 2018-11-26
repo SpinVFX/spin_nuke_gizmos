@@ -20,7 +20,7 @@ Gizmo {
  addUserKnob {7 shine l Shininess t "Controls the shininess of the specular highlights." R 1 20}
  shine 10
  addUserKnob {26 spin_copyright_div l "" +STARTLINE}
- addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\Relight_Simple\nVersion 1.0\n2018\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Relight_Simple" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Relight_Simple\" style=\"color:#aaa\">Wiki Page</a></span>"}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nRelight_Simple\nVersion 1.0\n2018\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Relight_Simple" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Relight_Simple\" style=\"color:#aaa\">Wiki Page</a></span>"}
 }
  Constant {
   inputs 0
