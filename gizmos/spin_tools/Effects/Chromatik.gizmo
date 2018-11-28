@@ -21,9 +21,9 @@ Gizmo {
 }
  Input {
   inputs 0
-  name Input1
+  name Input
   xpos 829
-  ypos -221
+  ypos -285
  }
  Dot {
   name Dot52
@@ -31,12 +31,12 @@ Gizmo {
   xpos 863
   ypos -181
  }
-set Nce3f750 [stack 0]
+set Nbfccea0 [stack 0]
  Group {
   name RadialVectorGenerator1
-  selected true
   xpos 985
   ypos -184
+  disable {{"!\[exists parent.input]"}}
   addUserKnob {20 genTab l Generator}
   addUserKnob {12 center l "Center Point" t "Center of the Radial vectors"}
   center {960 540}
@@ -102,12 +102,13 @@ set Nce3f750 [stack 0]
   xpos 1019
   ypos -41
  }
-push $Nce3f750
+push $Nbfccea0
  Group {
   inputs 2
   name Vector_Chromatic
   xpos 829
   ypos -44
+  disable {{"!\[exists parent.input]"}}
   addUserKnob {20 Chromatik}
   addUserKnob {26 title l "Generate Gradient"}
   addUserKnob {41 lut l "" -STARTLINE T ColorLookup1.lut}
@@ -150,7 +151,7 @@ push $Nce3f750
    xpos 240
    ypos -448
   }
-set Nd1cc180 [stack 0]
+set Nc02b6d0 [stack 0]
   Input {
    inputs 0
    name Vector_Map
@@ -225,7 +226,7 @@ set Nd1cc180 [stack 0]
    ypos -91
    disable {{1-parent.XYZ_space}}
   }
-push $Nd1cc180
+push $Nc02b6d0
   Colorspace {
    colorspace_out CIE-XYZ
    name Colorspace1
