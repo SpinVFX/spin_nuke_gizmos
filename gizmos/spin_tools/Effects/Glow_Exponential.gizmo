@@ -1,4 +1,5 @@
 Gizmo {
+ name Glow_Exponential
  inputs 2
  help "Exponential Glow node, with options to recolor and adjust falloff."
  knobChanged "\nk = nuke.thisKnob()\nif k.name()=='crop':\n    if k.value():\n        nuke.thisNode().knob('overscan').setEnabled(True)\n    else:\n        nuke.thisNode().knob('overscan').setEnabled(False)\n"

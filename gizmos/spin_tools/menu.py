@@ -23,6 +23,10 @@ import nuke
 from spin2d.util import get_software_version_from_path, natural_sort
 from spin2d.nuke.spin_constants import NUKE_VERSION_STRING, DEPRECATED_FOLDER, ICONS_FOLDER
 
+# spin_tools
+import spin_tools_callbacks
+
+
 ###################################################################################################
 # Functions
 ###################################################################################################
@@ -87,6 +91,7 @@ def populate_menu_rcsv(tool_path, menu, hotkeys=None):
                                             shortcut=hotkey, shortcutContext=2)
     return menu
 
+
 ###################################################################################################
 # Running code
 ###################################################################################################
@@ -99,3 +104,5 @@ toolbar_spin_tools = toolbar.addMenu("Spin Tools", icon="spin_tools.png")
 
 
 populate_menu_rcsv(dirname, toolbar_spin_tools)
+
+spin_tools_callbacks.add_callbacks()
