@@ -1,0 +1,297 @@
+Gizmo {
+help "Brings a Finer Edge for any Alpha input than the usual Edge Detect.\nOmnidireccional, Inside and Outside modes\nFeather and Offest options"
+tile_color 0x57707fff
+note_font "DejaVu Sans Mono Bold"
+addUserKnob {20 EdgeDetect_Fine l "EdgeDetect Fine"}
+addUserKnob {26 spacing_a l "   " T "   "}
+addUserKnob {6 omni_gang l "both edges" +STARTLINE}
+omni_gang true
+addUserKnob {7 omni_size l size R 1 10}
+omni_size 1
+addUserKnob {7 inside_size l "inside size" +DISABLED R 0 10}
+addUserKnob {7 outside_size l "outside size" +DISABLED R 0 10}
+addUserKnob {26 divider_feathering l "" +STARTLINE}
+addUserKnob {26 spacing_b l "   " T "    "}
+addUserKnob {6 FeatherFED l feather +STARTLINE}
+FeatherFED true
+addUserKnob {7 MultiplyFED l multiply R 1 10}
+MultiplyFED 1
+addUserKnob {41 offset_size l offset T erode_offset.size}
+addUserKnob {7 offset_fix l "    offset fix" t "use if the fall off is breaking" -STARTLINE}
+addUserKnob {26 divider_end l "" +STARTLINE}
+addUserKnob {26 credit l "" +STARTLINE T "v1.0 - gary.j.couto - 2018"}
+}
+Input {
+inputs 0
+name Alpha
+label "\n"
+xpos 460
+ypos 64
+}
+Shuffle {
+name Shuffle1
+label "in \[value in]-->out \[value out]"
+xpos 460
+ypos 108
+}
+Clamp {
+channels rgba
+name clamp_input
+xpos 460
+ypos 172
+}
+FilterErode {
+size 0
+name erode_offset
+xpos 460
+ypos 243
+}
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name shuffle_input
+xpos 460
+ypos 313
+}
+Gamma {
+channels rgba
+value {{5000*(offset_fix*2)+1}}
+name offset_cleanup
+xpos 460
+ypos 369
+}
+Dot {
+name Dot20
+tile_color 0xcccccc00
+xpos 494
+ypos 470
+}
+set N101895f0 [stack 0]
+Dot {
+name Dot9
+tile_color 0xcccccc00
+xpos 278
+ypos 468
+}
+set N10328e90 [stack 0]
+Dot {
+name Dot2
+tile_color 0xcccccc00
+xpos -100
+ypos 468
+}
+Blur {
+channels rgba
+size {{parent.omni_size}}
+name omni_edge_blur
+xpos -134
+ypos 568
+}
+set N112ae240 [stack 0]
+Dot {
+name Dot1
+tile_color 0xcccccc00
+xpos -244
+ypos 571
+}
+Invert {
+channels rgba
+name invert_omni
+xpos -278
+ypos 640
+}
+push $N112ae240
+Merge2 {
+inputs 2
+operation in
+name InFED
+xpos -134
+ypos 640
+}
+Dot {
+name Dot6
+tile_color 0xcccccc00
+xpos -100
+ypos 1017
+}
+push $N10328e90
+Blur {
+channels rgba
+size {{parent.inside_size}}
+name inside_edge_blur
+xpos 244
+ypos 561
+}
+set N1a96efe0 [stack 0]
+Dot {
+name Dot10
+tile_color 0xcccccc00
+xpos 134
+ypos 564
+}
+Invert {
+channels rgba
+name invert_omni1
+xpos 100
+ypos 633
+}
+push $N1a96efe0
+Merge2 {
+inputs 2
+operation in
+name InFED1
+xpos 244
+ypos 633
+}
+Dot {
+name Dot8
+tile_color 0xcccccc00
+xpos 278
+ypos 726
+}
+push $N101895f0
+Merge2 {
+inputs 2
+operation in
+name InFED2
+xpos 460
+ypos 723
+}
+push $N101895f0
+Dot {
+name Dot11
+tile_color 0xcccccc00
+xpos 801
+ypos 470
+}
+set N1c7b96d0 [stack 0]
+Blur {
+channels rgba
+size {{parent.outside_size}}
+name outside_edge_blur
+xpos 767
+ypos 563
+}
+set N11ae79a0 [stack 0]
+Dot {
+name Dot12
+tile_color 0xcccccc00
+xpos 657
+ypos 566
+}
+Invert {
+channels rgba
+name invert_omni2
+xpos 623
+ypos 635
+}
+push $N11ae79a0
+Merge2 {
+inputs 2
+operation in
+name InFED3
+xpos 767
+ypos 635
+}
+Dot {
+name Dot21
+tile_color 0xcccccc00
+xpos 801
+ypos 736
+}
+push $N1c7b96d0
+Dot {
+name Dot24
+tile_color 0xcccccc00
+xpos 1076
+ypos 470
+}
+Merge2 {
+inputs 2
+operation out
+name OutFED
+xpos 1042
+ypos 733
+}
+Dot {
+name Dot14
+tile_color 0xcccccc00
+xpos 1076
+ypos 931
+}
+Merge2 {
+inputs 2
+bbox B
+name Merge1
+xpos 460
+ypos 928
+}
+Switch {
+inputs 2
+which {{omni_gang}}
+name Switch1
+xpos 460
+ypos 1014
+}
+Multiply {
+channels rgba
+value 4.1
+name MULTFED
+xpos 460
+ypos 1084
+}
+Dot {
+name Dot3
+tile_color 0xcccccc00
+xpos 494
+ypos 1143
+}
+set Nfb56810 [stack 0]
+Multiply {
+channels rgba
+value {{parent.MultiplyFED}}
+name MULTFETHERFED
+xpos 590
+ypos 1140
+}
+Dot {
+name Dot4
+tile_color 0xcccccc00
+xpos 629
+ypos 1200
+}
+push $Nfb56810
+Grade {
+channels rgba
+blackpoint 0.4
+whitepoint 0.6
+name ROUGHFED
+xpos 326
+ypos 1140
+}
+Dot {
+name Dot5
+tile_color 0xcccccc00
+xpos 360
+ypos 1200
+}
+Switch {
+inputs 2
+which {{parent.FeatherFED}}
+name FeatherCHECK
+xpos 455
+ypos 1197
+}
+Clamp {
+channels rgba
+name CLAMPFED
+xpos 455
+ypos 1257
+}
+Output {
+name Output1
+xpos 455
+ypos 1319
+}
+end_group

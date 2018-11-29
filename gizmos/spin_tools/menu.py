@@ -25,6 +25,7 @@ from spin2d.nuke.spin_constants import NUKE_VERSION_STRING, DEPRECATED_FOLDER, I
 
 # spin_tools
 import spin_tools_callbacks
+import misc_tools_callbacks
 
 
 ###################################################################################################
@@ -105,4 +106,7 @@ toolbar_spin_tools = toolbar.addMenu("Spin Tools", icon="spin_tools.png")
 
 populate_menu_rcsv(dirname, toolbar_spin_tools)
 
+
+# Add Tools callbacks
 spin_tools_callbacks.add_callbacks()
+misc_tools_callbacks.add_edge_detect_callbacks()
