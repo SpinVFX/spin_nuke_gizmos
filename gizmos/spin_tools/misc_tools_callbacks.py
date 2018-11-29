@@ -36,21 +36,27 @@ def edge_detect_fine_auto_label():
     """
 
     node = nuke.thisNode()
+    label = nuke.value("label")
+    if not label:
+        label = ""
+    else:
+        try:
+            label = nuke.tcl("subst", label)
+        except Exception as error:
+            print error
 
-    if node.Class() == "EdgeDetect_Fine":
-        user_label = nuke.tcl("subst", node['label'].value())
-        if node['omni_gang'].value():
-            auto_label = node.name() + '\n' + 'size ' + str(node['omni_size'].value())
-            if user_label:
-                auto_label = auto_label + '\n' + user_label
-            return auto_label
+    if node['omni_gang'].value():
+        auto_label = node.name() + '\n' + 'size ' + str(node['omni_size'].value())
+        if label:
+            auto_label = auto_label + '\n' + label
+        return auto_label
 
-        else:
-            auto_label = node.name() + '\n' + 'in ' + str(node['inside_size'].value()) + '\n' \
-                   + 'out ' + str(node['outside_size'].value())
-            if user_label:
-                auto_label = auto_label + '\n' + user_label
-            return auto_label
+    else:
+        auto_label = node.name() + '\n' + 'in ' + str(node['inside_size'].value()) + '\n' \
+               + 'out ' + str(node['outside_size'].value())
+        if label:
+            auto_label = auto_label + '\n' + label
+        return auto_label
 
 
 def add_edge_detect_callbacks():
