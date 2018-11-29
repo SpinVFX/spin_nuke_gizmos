@@ -5,6 +5,29 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 
+## [Unreleased]
+
+### Added
+- Relight_Simple.gizmo
+- Edge_Expand.gizmo
+- Erode_Fine.gizmo
+- EdgeDetect_fine.gizmo (external)
+- Chromatik.gizmo
+- Noise_3D.gizmo
+
+### Changed
+- Added name in Glow_Exponential.gizmo
+
+### Fixed
+- Fixed alpha issue in Suppress_RGBCMY.gizmo
+- Fixed Luma_to_Normals to handle proxy resolution better
+
+### Deprecated
+- EdgeExtend2.gizmo
+- P_Noise3D.gizmo
+- VectorExtendEdge.gizmo
+
+
 ## [1.0.2] - 2018-08-31
 
 ### Fixed
