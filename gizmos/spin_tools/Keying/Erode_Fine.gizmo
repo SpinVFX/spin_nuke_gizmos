@@ -11,7 +11,7 @@ Gizmo {
  addUserKnob {6 round_filter l "Round Filter" t "Erode the image with a round Filter (well, it's more of a dodecagon... but... you know..) instead of a square filter." +STARTLINE}
  round_filter true
  addUserKnob {7 size l Size t "Amount of erode/dilate. Positive values will grow the image, negative values will shrink it." R -10 10}
- size 20
+ size 0
  addUserKnob {26 "" +STARTLINE}
  addUserKnob {41 maskChannelInput l mask T NodeWrapper1.maskChannelInput}
  addUserKnob {41 inject -STARTLINE T NodeWrapper1.inject}
