@@ -17,7 +17,7 @@ Gizmo {
  addUserKnob {41 min l "Min Samples" T Vector_Chromatic.min}
  addUserKnob {41 max l "Max Samples" -STARTLINE T Vector_Chromatic.max}
  addUserKnob {26 ""}
- addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nChromatik\nVersion 1.0\n2018\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Chromatic/" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Chromatik/\" style=\"color:#aaa\">Wiki Page</a></span>"}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nChromatik\nVersion 1.0\n2018" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://github.com/SpinVFX/spin_nuke_gizmos/\" style=\"color:#aaa\">Github Page</a></span>"}
 }
  Input {
   inputs 0

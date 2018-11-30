@@ -15,7 +15,7 @@ Gizmo {
  addUserKnob {7 v_apert l INVISIBLE +INVISIBLE}
  v_apert {{"\[python -execlocal #\\ Reproject_3D\\ Expression\\nnode\\ =\\ nuke.thisNode()\\nparent\\ =\\ node.input(2)\\nwhile\\ parent\\ and\\ parent.Class()\\ ==\\ 'Dot':\\n\\ \\ \\ \\ parent\\ =\\ parent.input(0)\\nif\\ parent\\ and\\ parent.Class()\\ ==\\ 'Camera2':\\n\\ \\ \\ \\ ret=\\ parent\\\['vaperture'\\].value()\\nelse:\\n\\ \\ \\ \\ ret\\ =\\ 18.672]"}}
  addUserKnob {26 spin_copyright_div l "" +STARTLINE}
- addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nReProject_3D\nVersion 1.1\n2017\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/ReProject_3D" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.1 - 2017 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/ReProject_3D\" style=\"color:#aaa\">Wiki Page</a></span>"}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nReProject_3D\nVersion 1.1\n2017" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.1 - 2017 - <a href=\"https://github.com/SpinVFX/spin_nuke_gizmos/\" style=\"color:#aaa\">Github Page</a></span>"}
 }
  BackdropNode {
   inputs 0

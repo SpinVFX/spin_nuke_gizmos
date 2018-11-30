@@ -2,7 +2,7 @@ Gizmo {
  name Erode_Fine
  inputs 2
  help "Erode an image with fine controls, as opposed to Nuke's default erode node."
- tile_color 0xe57c2dff
+ tile_color 0xef7033ff
  label "\[value size]"
  note_font "DejaVu Sans"
  addUserKnob {20 erode_fine l "Fine Erode"}
@@ -19,7 +19,7 @@ Gizmo {
  addUserKnob {41 fringe -STARTLINE T NodeWrapper1.fringe}
  addUserKnob {41 mix T NodeWrapper1.mix}
  addUserKnob {26 spin_copyright_div l "" +STARTLINE}
- addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nErode_Fine\nVersion 1.0\n2018\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Erode_Fine" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Erode_Fine\" style=\"color:#aaa\">Wiki Page</a></span>"}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nErode_Fine\nVersion 1.0\n2018" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2018 - <a href=\"https://github.com/SpinVFX/spin_nuke_gizmos/\" style=\"color:#aaa\">Github Page</a></span>"}
 }
  BackdropNode {
   inputs 0

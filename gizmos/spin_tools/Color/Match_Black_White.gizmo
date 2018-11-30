@@ -28,7 +28,7 @@ Gizmo {
  addUserKnob {7 mix}
  mix 1
  addUserKnob {26 ""}
- addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nMatch_Black_White\nVersion 1.1\n2017\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Match_Black_White" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.1 - 2017 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Match_Black_White\" style=\"color:#aaa\">Wiki Page</a></span>"}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nMatch_Black_White\nVersion 1.1\n2017" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.1 - 2017 - <a href=\"https://github.com/SpinVFX/spin_nuke_gizmos/\" style=\"color:#aaa\">Github Page</a></span>"}
 }
  Input {
   inputs 0
