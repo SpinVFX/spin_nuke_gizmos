@@ -4,6 +4,7 @@ Collection of Nuke Gizmos and Tools used in production at [SPIN VFX](http://www.
 ### Table of Contents
 **[Installation Instructions](#installation-instructions)**<br>
 **[Manual Installation](#manual-installation)**<br>
+**[List of Tools](#list-of-tools)**<br>
 **[Thanks](#thanks)**
 
 ## Installation Instructions
@@ -44,6 +45,59 @@ https://learn.foundry.com/nuke/content/comp_environment/configuring_nuke/custom_
 Please note that a few gizmos are using callbacks to improve on user experience. These callbacks are defined in the 
 file `/gizmos/spin_tools/spin_tools_callbacks.py` and would need to be set somewhere, though the tools will function 
 without the callbacks as well.
+
+## List of Tools
+
+### 3D
+#### Noise 3D
+Generate Noise in 3D space based on Position passes. It includes pre-made Position passes for some 3D primitives, or 
+can use a custom Position pass. Uses a 4D noise internally so that the 4th dimension can be used to add a 'boiling' 
+effect.
+#### ReProject_3D
+This gizmo does camera projection using a render point position pass (in world space) and a 3D camera to 
+to remap all the layers in the input image.
+
+NOTE: The projection works best with unmatted input images or at least unpremulted matting with some coverage, 
+then all masking occurs within the gizmo.
+It can mask the projected image in the following ways:
+- Input alpha from the 3D render.
+- Projecting on surfaces facing camera, using normal (N) in world space.
+#### Relight_Simple
+Simpliflied relight node. Only requires a normal map to get started.
+
+This node will not reproduce accurate lighting, 
+as it does not take into account the actual 3D world space, but instead considers the image in its own local space.
+
+### Color
+#### Match_Black_White
+Allows you to match Black and white points of an image (source) to another (Target).
+#### Suppress_RGBCMY
+Suppress (or boost) specific colors: Red, Green, Blue, Cyan, Magenta or Yellow.
+
+### Comp
+#### Grain_Advanced
+Adds synthetic grain. The defaults are setup to resemble an HD Alexa plate's grain.
+You can adjust the sliders to match a sample grain.
+#### Lightwrap_Exponential
+A lightwrap node with a more physical response than Nuke's default.
+#### Morph_Dissolve
+Allows to morph between two moving plates automatically, or can be used to improve manual Morphs.
+
+### Effects
+#### Chromatik
+Chromatic aberration node using a spectral wavelength gradient.
+#### Glow_Exponential
+Exponential Glow node, with options to recolor and adjust falloff.
+
+### Keying
+#### Edge_Expand
+Expand edges to fix fringing on keys.
+#### Erode_Fine
+Erode an image with fine controls, as opposed to Nuke's default erode node which can only erode full pixels.
+#### Spill Correct
+Use this tool to "despill" or mute colors introduced from Red/Green/Blue screens. Can replace the spill with a chosen
+color.
+
 
 ## Thanks
 Many of the tools in this collection are based on tools made available freely by the VFX community.
