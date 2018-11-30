@@ -1,9 +1,0 @@
-{
-	"name": "nuke_gizmos",
-	"description": "spin nuke gizmos",
-	"version": "1.1.0",
-	"requires":
-	{
-		"spin2d": "3.0+"
-	}
-}
