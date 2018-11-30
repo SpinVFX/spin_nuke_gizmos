@@ -1,0 +1,538 @@
+Gizmo {
+ inputs 3
+ help "A lightwrap node with a more physical response than Nuke's default."
+ tile_color 0xc97200ff
+ addUserKnob {20 ge l Glow}
+ addUserKnob {26 glow_ctrls l "@b;Glow:"}
+ addUserKnob {7 size t "Size of the glow" R 0 100}
+ size 2
+ addUserKnob {7 intensity t "Brightness of the Glow" R 0 10}
+ intensity 1
+ addUserKnob {7 falloff t "Adjust the light falloff of the glow. Higher values will have a longer falloff, resulting in visually bigger glows."}
+ falloff 0.75
+ addUserKnob {26 glow_highlights l "@b;Highlights:"}
+ addUserKnob {41 range t "Luma key to define which parts of the image will glow." T Keyer1.range}
+ addUserKnob {26 glow_options l "@b;Options:"}
+ addUserKnob {14 aspect l "aspect ratio" t "Set the aspect ratio for your glow. Streaky results can be obtained by changing the ratio here." R 0 100}
+ aspect {1 1}
+ addUserKnob {6 glow_only l "LightWrap only" t "By default the glow is added onto the plate. Checking this box will output the glow only. " +STARTLINE}
+ addUserKnob {7 mix t "Mix back with the original (or black, in case of LightWrap only)"}
+ mix 1
+ addUserKnob {26 ""}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nLightwrap_Exponential\nVersion 1.0\n2017\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Lightwrap_Exponential/" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.0 - 2017 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Lightwrap_Exponential/\" style=\"color:#aaa\">Wiki Page</a></span>"}
+}
+ Input {
+  inputs 0
+  name fg
+  xpos -191
+  ypos -71
+ }
+ Dot {
+  name Dot25
+  tile_color 0xcccccc00
+  xpos -157
+  ypos 228
+ }
+set N8a5dad0 [stack 0]
+ Dot {
+  name Dot22
+  tile_color 0xcccccc00
+  xpos -157
+  ypos 278
+ }
+set N89e3160 [stack 0]
+ Dot {
+  name Dot21
+  tile_color 0xcccccc00
+  xpos -157
+  ypos 934
+ }
+set N7e87020 [stack 0]
+ Dot {
+  name Dot24
+  tile_color 0xcccccc00
+  xpos -157
+  ypos 1274
+ }
+set N89dcba0 [stack 0]
+push $N7e87020
+push $N89e3160
+push $N8a5dad0
+ Input {
+  inputs 0
+  name mask
+  xpos 124
+  ypos 102
+  number 2
+ }
+ Input {
+  inputs 0
+  name bg
+  xpos 0
+  ypos -73
+  number 1
+ }
+ Dot {
+  name Dot1
+  tile_color 0xcccccc00
+  xpos 34
+  ypos -6
+ }
+ NoOp {
+  name CTRL
+  xpos 304
+  ypos -10
+  addUserKnob {20 User}
+  addUserKnob {7 falloff R 0 2}
+  falloff {{"max(parent.falloff/2+0.5, 0.0001)"}}
+  addUserKnob {7 falloff_intensity}
+  falloff_intensity {{falloff+pow(falloff,2)+pow(falloff,3)+pow(falloff,4)+pow(falloff,5)+pow(falloff,6)+pow(falloff,7)+pow(falloff,8)+pow(falloff,9)+pow(falloff,10)}}
+  addUserKnob {14 size R 0 100}
+  size {{parent.size/20*parent.aspect.w} {parent.size/20*parent.aspect.h}}
+  addUserKnob {7 intensity}
+  intensity {{parent.intensity/falloff_intensity}}
+ }
+ Keyer {
+  operation "luminance key"
+  name Keyer1
+  xpos 304
+  ypos 42
+ }
+ ChannelMerge {
+  inputs 2
+  operation in
+  name ChannelMerge1
+  xpos 304
+  ypos 90
+  disable {{"!\[exists parent.input2] "}}
+ }
+ Premult {
+  name Premult1
+  xpos 304
+  ypos 146
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove1
+  xpos 304
+  ypos 182
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge12
+  xpos 304
+  ypos 224
+ }
+ Multiply {
+  value {{parent.CTRL.intensity}}
+  name Multiplyer
+  xpos 304
+  ypos 268
+ }
+set N8aa6df0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation mask
+  bbox B
+  name Merge13
+  xpos 109
+  ypos 274
+ }
+ Dot {
+  name Dot26
+  tile_color 0x4b5ec600
+  xpos 143
+  ypos 331
+ }
+push $N8aa6df0
+ Merge2 {
+  inputs 2
+  operation from
+  bbox B
+  name Merge14
+  xpos 304
+  ypos 327
+ }
+ Dot {
+  name Dot3
+  tile_color 0x4b5ec600
+  xpos 338
+  ypos 372
+ }
+set N7c909f0 [stack 0]
+ Dot {
+  name Dot2
+  tile_color 0x4b5ec600
+  xpos 604
+  ypos 372
+ }
+set N89d68b0 [stack 0]
+ Dot {
+  name Dot4
+  tile_color 0x4b5ec600
+  xpos 870
+  ypos 372
+ }
+set N88f61e0 [stack 0]
+ Dot {
+  name Dot5
+  tile_color 0x4b5ec600
+  xpos 1136
+  ypos 372
+ }
+set N8a95e20 [stack 0]
+ Dot {
+  name Dot6
+  tile_color 0x4b5ec600
+  xpos 1402
+  ypos 372
+ }
+set N350dd10 [stack 0]
+ Dot {
+  name Dot7
+  tile_color 0x4b5ec600
+  xpos 1668
+  ypos 372
+ }
+set N5cc9e60 [stack 0]
+ Dot {
+  name Dot8
+  tile_color 0x4b5ec600
+  xpos 1934
+  ypos 372
+ }
+set N89891c0 [stack 0]
+ Dot {
+  name Dot9
+  tile_color 0x4b5ec600
+  xpos 2200
+  ypos 372
+ }
+set N89f23a0 [stack 0]
+ Dot {
+  name Dot10
+  tile_color 0x4b5ec600
+  xpos 2466
+  ypos 372
+ }
+set N8b1f9e0 [stack 0]
+ Dot {
+  name Dot11
+  tile_color 0x4b5ec600
+  xpos 2732
+  ypos 372
+ }
+ Blur {
+  size {{Blur9.size*2} {Blur9.size*2}}
+  crop false
+  name Blur10
+  xpos 2698
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,10)}}
+  name Multiply10
+  xpos 2698
+  ypos 543
+ }
+ Dot {
+  name Dot20
+  tile_color 0x7aa9ff00
+  xpos 2732
+  ypos 796
+ }
+push $N8b1f9e0
+ Blur {
+  size {{Blur8.size*2} {Blur8.size*2}}
+  crop false
+  name Blur9
+  xpos 2432
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,9)}}
+  name Multiply9
+  xpos 2432
+  ypos 542
+ }
+ Dot {
+  name Dot19
+  tile_color 0x7aa9ff00
+  xpos 2466
+  ypos 770
+ }
+push $N89f23a0
+ Blur {
+  size {{Blur7.size*2} {Blur7.size*2}}
+  crop false
+  name Blur8
+  xpos 2166
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,8)}}
+  name Multiply8
+  xpos 2166
+  ypos 536
+ }
+ Dot {
+  name Dot18
+  tile_color 0x7aa9ff00
+  xpos 2200
+  ypos 744
+ }
+push $N89891c0
+ Blur {
+  size {{Blur6.size*2} {Blur6.size*2}}
+  crop false
+  name Blur7
+  xpos 1900
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,7)}}
+  name Multiply7
+  xpos 1900
+  ypos 528
+ }
+ Dot {
+  name Dot17
+  tile_color 0x7aa9ff00
+  xpos 1934
+  ypos 718
+ }
+push $N5cc9e60
+ Blur {
+  size {{Blur5.size*2} {Blur5.size*2}}
+  crop false
+  name Blur6
+  xpos 1634
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,6)}}
+  name Multiply6
+  xpos 1634
+  ypos 528
+ }
+ Dot {
+  name Dot16
+  tile_color 0x7aa9ff00
+  xpos 1668
+  ypos 692
+ }
+push $N350dd10
+ Blur {
+  size {{Blur4.size*2} {Blur4.size*2}}
+  crop false
+  name Blur5
+  xpos 1368
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,4)}}
+  name Multiply5
+  xpos 1368
+  ypos 524
+ }
+ Dot {
+  name Dot15
+  tile_color 0x7aa9ff00
+  xpos 1402
+  ypos 666
+ }
+push $N8a95e20
+ Blur {
+  size {{Blur3.size*2} {Blur3.size*2}}
+  crop false
+  name Blur4
+  xpos 1102
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,5)}}
+  name Multiply4
+  xpos 1102
+  ypos 518
+ }
+ Dot {
+  name Dot14
+  tile_color 0x7aa9ff00
+  xpos 1136
+  ypos 640
+ }
+push $N88f61e0
+ Blur {
+  size {{Blur2.size*2} {Blur2.size*2}}
+  crop false
+  name Blur3
+  xpos 836
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,3)}}
+  name Multiply3
+  xpos 836
+  ypos 509
+ }
+ Dot {
+  name Dot13
+  tile_color 0x7aa9ff00
+  xpos 870
+  ypos 614
+ }
+push $N89d68b0
+ Blur {
+  size {{Blur1.size*2} {Blur1.size*2}}
+  crop false
+  name Blur2
+  xpos 570
+  ypos 440
+ }
+ Multiply {
+  value {{pow(CTRL.falloff,2)}}
+  name Multiply2
+  xpos 570
+  ypos 508
+ }
+ Dot {
+  name Dot12
+  tile_color 0x7aa9ff00
+  xpos 604
+  ypos 588
+ }
+push $N7c909f0
+ Blur {
+  size {{CTRL.size*2} {CTRL.size*2}}
+  crop false
+  name Blur1
+  xpos 304
+  ypos 440
+ }
+ Multiply {
+  value {{CTRL.falloff}}
+  name Multiply1
+  xpos 304
+  ypos 512
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 304
+  ypos 584
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 304
+  ypos 610
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos 304
+  ypos 636
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge4
+  xpos 304
+  ypos 662
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge5
+  xpos 304
+  ypos 688
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge6
+  xpos 304
+  ypos 714
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge7
+  xpos 304
+  ypos 740
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge8
+  xpos 304
+  ypos 766
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge9
+  xpos 304
+  ypos 792
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  bbox B
+  name Merge10
+  xpos 304
+  ypos 930
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove2
+  xpos 304
+  ypos 1150
+ }
+ Multiply {
+  value {{parent.mix}}
+  name MIX
+  xpos 304
+  ypos 1186
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos 304
+  ypos 1270
+  disable {{parent.glow_only}}
+ }
+ Dot {
+  name Dot23
+  tile_color 0x4b5ec600
+  xpos 338
+  ypos 1436
+ }
+push $N89dcba0
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  bbox B
+  name Copy1
+  selected true
+  xpos -191
+  ypos 1414
+ }
+ Output {
+  name Output1
+  xpos -191
+  ypos 1543
+ }
+end_group

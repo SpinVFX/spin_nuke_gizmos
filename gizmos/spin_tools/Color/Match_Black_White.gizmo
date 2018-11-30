@@ -1,0 +1,104 @@
+Gizmo {
+ inputs 2
+ help "Allows you to match Black and white points of an image (source) to another (Target)."
+ tile_color 0x8ea8efff
+ addUserKnob {20 MatchBW l "Match BW"}
+ addUserKnob {18 sblack l "Source Black" t "Pick the Black point from the image you are trying to match to your Target" R -1 1}
+ sblack {0 0 0}
+ addUserKnob {6 sblack_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 tblack l "Target Black" t "Pick the Black point from the Target you are trying to match your image to." R -1 1}
+ tblack {0 0 0}
+ addUserKnob {6 tblack_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {18 swhite l "Source White" t "Pick the White point from the image you are trying to match to your Target" R 0 4}
+ swhite 1
+ addUserKnob {6 swhite_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 twhite l "Target White" t "Pick the White point from the Target you are trying to match your image to." R 0 4}
+ twhite 1
+ addUserKnob {6 twhite_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {18 sgamma l Gamma t "Adjusts the Gamma based on user defined source black and white points." R 0.2 5}
+ sgamma 1
+ addUserKnob {6 sgamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {41 black_clamp l "black clamp" T Grade_Match.black_clamp}
+ addUserKnob {41 white_clamp l "white clamp" -STARTLINE T Grade_Match.white_clamp}
+ addUserKnob {41 unpremult l "(un)premult by" T Grade_Match.unpremult}
+ addUserKnob {41 invert_unpremult l invert -STARTLINE T Grade_Match.invert_unpremult}
+ addUserKnob {7 mix}
+ mix 1
+ addUserKnob {26 ""}
+ addUserKnob {26 spin_copyright l "" t "© <b>SPIN<span style=\"color:#b32026\">VFX</span></b>\nMatch_Black_White\nVersion 1.1\n2017\nhttps://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Match_Black_White" +STARTLINE T "<span style=\"color:#aaa;font-family:sans-serif;font-size:8pt\"><b>SPIN<span style=\"color:#b32026\">VFX</span></b> - Version 1.1 - 2017 - <a href=\"https://wiki.spinvfx.com/xwiki/bin/view/Departments/Compositing%20Department/Nuke%20tools/Match_Black_White\" style=\"color:#aaa\">Wiki Page</a></span>"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 1063
+  ypos -22
+  number 1
+ }
+ Input {
+  inputs 0
+  name Source
+  xpos 829
+  ypos -291
+ }
+ Dot {
+  name Dot1
+  xpos 863
+  ypos -242
+ }
+set N9642ec0 [stack 0]
+ Dot {
+  name Dot3
+  xpos 987
+  ypos -242
+ }
+ Dot {
+  name Dot2
+  xpos 987
+  ypos -94
+ }
+set N964c370 [stack 0]
+push $N964c370
+push $N9642ec0
+ Grade {
+  blackpoint {{sblack} {sblack} {sblack} {sblack}}
+  whitepoint {{swhite} {swhite} {swhite} {swhite}}
+  gamma {{parent.sgamma} {parent.sgamma} {parent.sgamma} {parent.sgamma}}
+  black_clamp false
+  unpremult {{{parent.Grade_Match.unpremult}}}
+  invert_unpremult {{parent.Grade_Match.invert_unpremult}}
+  name Grade_Neutral
+  xpos 829
+  ypos -200
+ }
+ Grade {
+  black {{parent.tblack} {parent.tblack} {parent.tblack} {parent.tblack}}
+  white {{parent.twhite} {parent.twhite} {parent.twhite} {parent.twhite}}
+  black_clamp false
+  name Grade_Match
+  xpos 829
+  ypos -151
+ }
+ Dissolve {
+  inputs 2
+  which {{1-parent.mix}}
+  name Dissolve1
+  xpos 829
+  ypos -104
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  name Keymix1
+  xpos 829
+  ypos -28
+  disable {{"!\[exists parent.input1] "}}
+ }
+ Output {
+  name Output1
+  xpos 829
+  ypos 53
+ }
+end_group
