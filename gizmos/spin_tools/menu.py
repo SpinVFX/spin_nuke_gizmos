@@ -7,7 +7,6 @@ All subdirectories are added to the nuke.pluginPath() (see init.py)
 # python
 import os
 import re
-import scandir
 
 # nuke
 import nuke
@@ -33,13 +32,13 @@ def populate_menu_recursive(tool_path, menu):
     if not tool_path.endswith(os.sep):
         tool_path += os.sep
 
-    for root, dirs, files in scandir.walk(tool_path):
+    for root, dirs, files in os.walk(tool_path):
         category = root.replace(tool_path, '')
         # build the dynamic menus, ignoring empty dirs:
         for dir_name in natural_sort(dirs):
             if os.listdir(os.path.join(root, dir_name)):
                 img = find_icon(root, dir_name)
-                menu.addMenu(os.path.join(category, dir_name), icon=img)
+                menu.addMenu(category + '/' + dir_name, icon=img)
 
         # if we have both dirs and files, add a separator
         if files and dirs:
@@ -53,11 +52,11 @@ def populate_menu_recursive(tool_path, menu):
                 img = find_icon(root, file_name)
                 # Adding the menu command
                 if extension.lower() in ['.nk']:
-                    menu.addCommand(os.path.join(category, file_name),
+                    menu.addCommand(category + '/' + file_name,
                                     'nuke.nodePaste( "{}" )'.format(os.path.join(root, nuke_file)),
                                     icon=img)
                 if extension.lower() in ['.gizmo', '.so']:
-                    menu.addCommand(os.path.join(category, file_name),
+                    menu.addCommand(category + '/' + file_name,
                                     'nuke.createNode( "{}" )'.format(file_name),
                                     icon=img)
     return menu
