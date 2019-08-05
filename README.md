@@ -63,7 +63,7 @@ It can mask the projected image in the following ways:
 - Input alpha from the 3D render.
 - Projecting on surfaces facing camera, using normal (N) in world space.
 
-Based on ReProject3D by Michael Garret.
+Based on ReProject3D by Michael Garrett.
 #### Relight_Simple
 Simpliflied relight node. Only requires a normal map to get started.
 
