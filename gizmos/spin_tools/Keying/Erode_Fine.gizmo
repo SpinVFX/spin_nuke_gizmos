@@ -312,7 +312,6 @@ push $N70a7ca0
  NodeWrapper {
   inputs 2+1
   channels rgba
-  maskChannelMask none
   name NodeWrapper1
   xpos -11
   ypos 1257
