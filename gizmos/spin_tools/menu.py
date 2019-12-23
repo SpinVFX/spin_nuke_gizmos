@@ -15,6 +15,7 @@ import nuke
 import spin_tools_callbacks
 
 
+DEPRECATED = 'deprecated'
 # Functions
 
 def find_icon(path, name):
@@ -36,9 +37,13 @@ def populate_menu_recursive(tool_path, menu):
         category = root.replace(tool_path, '')
         # build the dynamic menus, ignoring empty dirs:
         for dir_name in natural_sort(dirs):
-            if os.listdir(os.path.join(root, dir_name)):
+            if os.listdir(os.path.join(root, dir_name)) and dir_name != DEPRECATED:
                 img = find_icon(root, dir_name)
                 menu.addMenu(category + '/' + dir_name, icon=img)
+
+        # stop here if we're in a deprecated menu
+        if category == DEPRECATED:
+            continue
 
         # if we have both dirs and files, add a separator
         if files and dirs:
