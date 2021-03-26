@@ -16,8 +16,9 @@ import spin_tools_callbacks
 
 
 DEPRECATED = 'deprecated'
-# Functions
 
+
+# Functions
 def find_icon(path, name):
     img = None
     for icon_ext in ['.jpg', '.png']:
@@ -76,12 +77,14 @@ def natural_sort(values, case_sensitive=False):
     :param case_sensitive: Bool. If True capitals precede lowercase, so ['a', 'b', 'C'] sorts to ['C', 'a', 'b']
     :return: list
     """
+    digit_split = re.compile('([0-9]+)')
+
     def alpha_to_int(a, _case_sensitive=False):
         return int(a) if a.isdigit() else (a if _case_sensitive else a.lower())
 
     def natural_sort_key(_values):
         try:
-            return tuple(alpha_to_int(c, case_sensitive) for c in re.split('(\d+)', _values) if c)
+            return tuple(alpha_to_int(c, case_sensitive) for c in digit_split.split(_values))
         except (TypeError, ValueError):
             return _values
 
